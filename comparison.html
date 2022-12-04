@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="compare_styles.css">
+    <title>Day Comparer</title>
+</head>
+<body>
+    <script src="readData.js"></script>
+    <script src="processData.js"></script>
+    <div class="forecast-main">
+        <div class="content">
+            <div class="selector">
+                <form id="myForm">
+                    <h1>Select Dates:</h1>
+                    <label for="1">Date 1</label>
+                    <input min="2014-7-1" max="" id="1" name="date1" type="date" required></input><br>
+                    <label for="2">Date 2</label>
+                    <input min="2014-7-1" max="" id="2" name="date2" type="date" required></input><br>
+                    <input type="radio" name="top" id="tp">
+                    <label for="top">Top</label><br>
+                    <input type="radio" name="top" id="md">
+                    <label for="mid">Mid</label><br>
+                    <input type="radio" checked="checked" name="top" id="bt">
+                    <label for="bot">Bot</label><br>
+                    <input id="sub" type="submit" value="Compare">
+                </form>
+                <script>
+                    var station = "Bot"
+                    var date = 0
+                    var peak_wind_gust = 0
+                    var mid_wind_gust = 0
+                    var vlly_wind_gust = 0
+                    var peak_wind_spd = 0
+                    var mid_wind_spd = 0
+                    var vlly_wind_spd = 0
+                    var peak_min_tmp = 0
+                    var peak_max_tmp = 0
+                    var peak_feel_like = 0
+                    var mid_min_temp = 0
+                    var mid_max_tmp = 0
+                    var mid_feel_like = 0
+                    var vlly_min_tmp = 0
+                    var vlly_max_tmp = 0
+                    var vlly_feel_like = 0
+                    var inversion = 0
+                    var peak_w2 = 0
+                    var peak_w5 = 0
+                    var mid_w2 = 0
+                    var mid_w5 = 0
+                    var vlly_w2 = 0
+                    var vlly_w5 = 0
+                    var peak_rain = 0
+                    var mid_rain = 0
+                    var vlly_rain = 0
+                    var peak_snow = 0
+                    var mid_snow = 0
+                    var vlly_snow = 0
+                    var thunder = 0
+                    var pk_snow_dph = 0
+                    var md_snow_dph = 0
+                    var vy_snow_dph = 0
+                    var rows = 1
+                    var compdt1 = 0
+                    var compdt2 = 0
+                    var form = document.getElementById("myForm");
+                    function handleForm(event) { event.preventDefault(); } 
+                    form.addEventListener('submit', handleForm);
+                    document.getElementById('1').max = new Date(new Date().getTime() - new Date().getTimezoneOffset() * 60000).toISOString().split("T")[0];
+                    document.getElementById('2').max = new Date(new Date().getTime() - new Date().getTimezoneOffset() * 60000).toISOString().split("T")[0];
+                    console.log(station)
+                    function submit() {
+                        var top = document.getElementById('tp');
+                        var mid = document.getElementById('md');
+                        var bot = document.getElementById('bt');
+                        if (top.checked) {
+                            station = "Top"
+                        }
+                        if (mid.checked) {
+                            station = "Mid"
+                        }
+                        if (bot.checked) {
+                            station = "Bot"
+                        }
+                        dateEntry1 = document.getElementById('1')
+                        dateEntry2 = document.getElementById('2')
+                        var value1 = dateEntry1.value;
+                        var value2 = dateEntry2.value;
+                        if (value1 != 0 && value2 != 0) {
+                        compdt1 = new Date(value1).toLocaleDateString()
+                        compdt2 = new Date(value2).toLocaleDateString()
+
+                        console.log(compdt1)
+                        const day1d = new Date(value1).getFullYear();
+                        console.log(day1d)
+                        const day2d = new Date(value2).getFullYear();
+                        // console.log(day1d,day2d,day3d,day4d,day5d,day6d,day7d)
+
+                        const day1date = new Date(value1).getDate()
+                        const day2date = new Date(value2).getDate()
+                        // console.log(day1date,day7date)
+
+                        const day1e = document.getElementById("day1")
+                        const day2e = document.getElementById("day2")
+                        const day3e = document.getElementById("day3")
+                        const day4e = document.getElementById("day4")
+                        const day5e = document.getElementById("day5")
+                        const day6e = document.getElementById("day6")
+                        const day7e = document.getElementById("day7")
+
+                        day1e.innerHTML = compdt1 + "<br>" + "Date 1"
+                        day2e.innerHTML = compdt2 + "<br>" + "Date 2"
+                        // const thingys = value1.split('-');
+                        // console.log(compdt1,compdt2)
+                        // console.log(value1,value2)
+                        read_data(read_in)
+                        return compdt1,compdt2
+                        }
+                    }
+                    read_data(read_in)
+                    // console.log(compdt1)
+                    function read_in() {
+                        compare()
+                        compareData()
+                    }
+                    function compare() {
+                        // console.log(compdt1)
+                        if (station == "Bot") {
+                            var station_snow = vlly_snow;
+                            var station_rain = vlly_rain;
+                            var station_max_temp = vlly_max_tmp;
+                            var station_min_temp = vlly_min_tmp;
+                            var station_chill = vlly_feel_like;
+                            var station_wind_spd = vlly_wind_spd;
+                            // var station_wind_gust = vlly_wind_gust
+                            var station_w2 = vlly_w2;
+                            var station_w5 = vlly_w5;
+                            // console.log(date,vy_snow_dph)
+                            if (parseFloat(station_chill) > parseFloat(station_min_temp)) {
+                                station_chill = station_min_temp
+                            }
+                        }
+                        if (station == "Mid") {
+                            station_snow = mid_snow;
+                            station_rain = mid_rain;
+                            station_max_temp = mid_max_tmp;
+                            station_min_temp = mid_min_temp;
+                            station_chill = mid_feel_like;
+                            // console.log(station_chill,station_min_temp)
+                            station_wind_spd = mid_wind_spd;
+                            // var station_wind_gust = mid_wind_gust
+                            station_w2 = mid_w2;
+                            station_w5 = mid_w5;
+                            // console.log(station)
+                            if (parseFloat(station_chill) > parseFloat(station_min_temp)) {
+                                station_chill = station_min_temp
+                            }
+                        }
+                        // console.log(station_chill,station_min_temp)
+                        if (station == "Top") {
+                            var station_snow = peak_snow;
+                            var station_rain = peak_rain;
+                            var station_max_temp = peak_max_tmp;
+                            var station_min_temp = peak_min_tmp;
+                            var station_chill = peak_feel_like;
+                            var station_wind_spd = peak_wind_spd;
+                            // var station_wind_gust = peak_wind_gust
+                            var station_w2 = peak_w2;
+                            var station_w5 = peak_w5;
+                            // console.log(station)
+                            if (parseFloat(station_chill) > parseFloat(station_min_temp)) {
+                                station_chill = station_min_temp
+                            }
+                        }
+                        // console.log(compdt1,date)
+                        if (compdt1 == date) {
+                    
+
+                            if (station_snow == "0") {
+                                station_snow = "-";
+                            } else {
+                                station_snow = station_snow;
+                            }
+
+                            if (station_rain == "0") {
+                                station_rain = "-";
+                            } else {
+                                station_rain = station_rain;
+                            }
+                            var max_degree = document.getElementById("top-deg-cell__value1");
+                            max_degree.innerHTML = station_max_temp;
+
+                            var min_degree = document.getElementById("min-deg-cell__value1");
+                            min_degree.innerHTML = station_min_temp;
+
+                            var chill_degree = document.getElementById("chill-deg-cell1");
+                            chill_degree.innerHTML = station_chill;
+                            // console.log(station_chill,station_min_temp)
+
+                            var snow = document.getElementById("snow-cell__value1");
+                            snow.innerHTML = station_snow;
+
+                            var rain = document.getElementById("rain-cell__value1");
+                            rain.innerHTML = station_rain;
+
+                            if (station_w5 == "") {
+                                var weather = document.getElementById("w1-ph");
+                                weather.innerHTML = station_w2;
+                            } else {
+                                var weather = document.getElementById("w1-ph");
+                                weather.innerHTML = station_w5;
+                            }
+
+                            var windSpeed = document.getElementById("wind1");
+                            windSpeed.innerHTML = station_wind_spd;
+
+                            if (snow.innerHTML > 0) {
+                                snow.classList.add("has-value");
+                            } else {
+                                snow.classList.remove("has-value");
+                            }
+
+                            if (rain.innerHTML > 0) {
+                                rain.classList.add("has-value");
+                            } else {
+                                rain.classList.remove("has-value");
+                            }
+
+                            var snowFill = document.getElementById("snow-cell__fill1");
+
+                            if (snow.innerHTML <= 5 && snow.innerHTML > 0) {
+                                snowFill.style.height = "5px";
+                            } else if (snow.innerHTML > 5 && snow.innerHTML <= 10) {
+                                snowFill.style.height = "10px";
+                            } else if (snow.innerHTML > 10 && snow.innerHTML <= 15) {
+                                snowFill.style.height = "20px";
+                            } else if (snow.innerHTML > 15 && snow.innerHTML <= 20) {
+                                snowFill.style.height = "30px";
+                            } else if (snow.innerHTML > 20 && snow.innerHTML <= 25) {
+                                snowFill.style.height = "40px";
+                            } else if (snow.innerHTML > 25) {
+                                snowFill.style.height = "45px";
+                            } else {
+                                snowFill.style.height = "0px";
+                            }
+
+                            var rainFill = document.getElementById("rain-cell__fill1");
+
+                            if (rain.innerHTML <= 5 && rain.innerHTML > 0) {
+                                rainFill.style.height = "5px";
+                            } else if (rain.innerHTML > 5 && rain.innerHTML <= 10) {
+                                rainFill.style.height = "10px";
+                            } else if (rain.innerHTML > 10 && rain.innerHTML <= 15) {
+                                rainFill.style.height = "20px";
+                            } else if (rain.innerHTML > 15 && rain.innerHTML <= 20) {
+                                rainFill.style.height = "30px";
+                            } else if (rain.innerHTML > 20 && rain.innerHTML <= 25) {
+                                rainFill.style.height = "40px";
+                            } else if (rain.innerHTML > 25) {
+                                rainFill.style.height = "45px";
+                            } else {
+                                rainFill.style.height = "0px";
+                            }
+                        }
+                        if (compdt2 == date) {
+                            if (station_snow == "0") {
+                                station_snow = "-";
+                            } else {
+                                station_snow = station_snow;
+                            }
+
+                            if (station_rain == "0") {
+                                station_rain = "-";
+                            } else {
+                                station_rain = station_rain;
+                            }
+
+                            console.log(
+                                date,
+                                vlly_max_tmp,
+                                vlly_min_tmp,
+                                vlly_feel_like,
+                                vlly_wind_spd,
+                                vlly_wind_gust,
+                                vlly_w2,
+                                vlly_w5,
+                                station_snow,
+                                station_rain
+                            );
+                            var max_degree = document.getElementById("top-deg-cell__value2");
+                            max_degree.innerHTML = station_max_temp;
+
+                            var min_degree = document.getElementById("min-deg-cell__value2");
+                            min_degree.innerHTML = station_min_temp;
+
+                            var chill_degree = document.getElementById("chill-deg-cell2");
+                            chill_degree.innerHTML = station_chill;
+
+                            var snow = document.getElementById("snow-cell__value2");
+                            snow.innerHTML = station_snow;
+
+                            var rain = document.getElementById("rain-cell__value2");
+                            rain.innerHTML = station_rain;
+
+                            if (station_w5 == "") {
+                                var weather = document.getElementById("w2-ph");
+                                weather.innerHTML = station_w2;
+                            } else {
+                                var weather = document.getElementById("w2-ph");
+                                weather.innerHTML = station_w5;
+                            }
+
+                            var valleyWindSpeed = document.getElementById("wind2");
+                            valleyWindSpeed.innerHTML = station_wind_spd;
+
+                            if (snow.innerHTML > 0) {
+                                snow.classList.add("has-value");
+                            } else {
+                                snow.classList.remove("has-value");
+                            }
+
+                            if (rain.innerHTML > 0) {
+                                rain.classList.add("has-value");
+                            } else {
+                                rain.classList.remove("has-value");
+                            }
+
+                            var snowFill = document.getElementById("snow-cell__fill2");
+
+                            if (snow.innerHTML <= 5 && snow.innerHTML > 0) {
+                                snowFill.style.height = "5px";
+                            } else if (snow.innerHTML > 5 && snow.innerHTML <= 10) {
+                                snowFill.style.height = "10px";
+                            } else if (snow.innerHTML > 10 && snow.innerHTML <= 15) {
+                                snowFill.style.height = "20px";
+                            } else if (snow.innerHTML > 15 && snow.innerHTML <= 20) {
+                                snowFill.style.height = "30px";
+                            } else if (snow.innerHTML > 20 && snow.innerHTML <= 25) {
+                                snowFill.style.height = "40px";
+                            } else if (snow.innerHTML > 25) {
+                                snowFill.style.height = "45px";
+                            } else {
+                                snowFill.style.height = "0px";
+                            }
+
+                            var rainFill = document.getElementById("rain-cell__fill2");
+
+                            if (rain.innerHTML <= 5 && rain.innerHTML > 0) {
+                                rainFill.style.height = "5px";
+                            } else if (rain.innerHTML > 5 && rain.innerHTML <= 10) {
+                                rainFill.style.height = "10px";
+                            } else if (rain.innerHTML > 10 && rain.innerHTML <= 15) {
+                                rainFill.style.height = "20px";
+                            } else if (rain.innerHTML > 15 && rain.innerHTML <= 20) {
+                                rainFill.style.height = "30px";
+                            } else if (rain.innerHTML > 20 && rain.innerHTML <= 25) {
+                                rainFill.style.height = "40px";
+                            } else if (rain.innerHTML > 25) {
+                                rainFill.style.height = "45px";
+                            } else {
+                                rainFill.style.height = "0px";
+                            }
+                        }
+                    }
+                    document.getElementById('sub').addEventListener("click", submit)
+                </script>
+            </div>
+            <div class="table">
+                <table>
+                    <thead>
+                        <tr class="forecast-days">
+                            <th class="datez"></th>
+                            <td class="date"><span id="day1"><span><br><span id="date1"></span></td>
+                            <td class="date"><span id="day2"><span><br><span id="date2"></span></td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="row weather">
+                            <th class="wether"></th>
+                            <td class="phrase-cell">
+                                <div class="phrase-cell__container">
+                                    <span id="w1-ph" class="phrase-cell__value" data-wthr="">-</span>
+                                </div>
+                            </td>
+                            <td class="phrase-cell">
+                                <div class="phrase-cell__container">
+                                    <span id="w2-ph" class="phrase-cell__value" data-wthr="">-</span>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr class="row wind">
+                            <th class="windz"></th>
+                            <td class="wind-cell">
+                                <div class="wind-cell__container">
+                                    <span class="wind-cell__value-spd"><span id="wind1">-</span> km/h</span>
+                                    <span class="wind-cell__value-dir"></span>
+                                </div>
+                            </td>
+                            <td class="wind-cell">
+                                <div class="wind-cell__container">
+                                    <span class="wind-cell__value-spd"><span id="wind2">-</span> km/h</span>
+                                    <span class="wind-cell__value-dir">-</span>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr class="row snow">
+                            <th class="snow-cm">Snow cm</th>
+                            <td class="snow-cell">
+                                <div class="snow-cell__container">
+                                    <span id="snow-cell__value1" class="snow-cell__value">-</span>
+                                    <span id="snow-cell__fill1" class="snow-cell__fill"></span>
+                                </div>
+                            </td>
+                            <td class="snow-cell">
+                                <div class="snow-cell__container">
+                                    <span id="snow-cell__value2" class="snow-cell__value">-</span>
+                                    <span id="snow-cell__fill2" class="snow-cell__fill1"></span>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr class="row rain">
+                            <th class="rain-mm">Rain mm</th>
+                            <td class="rain-cell">
+                                <div class="rain-cell__container">
+                                    <span id="rain-cell__value1" class="rain-cell__value">-</span>
+                                    <span id="rain-cell__fill1" class="rain-cell__fill"></span>
+                                </div>
+                            </td>
+                            <td class="rain-cell">
+                                <div class="rain-cell__container">
+                                    <span id="rain-cell__value2" class="rain-cell__value">-</span>
+                                    <span id="rain-cell__fill2" class="rain-cell__fill1"></span>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr class="row top-deg">
+                            <th class="max-deg">Max °C</th>
+                            <td id="top-deg-cell" class="top-deg-cell" data-temp="sub-5">
+                                <div class="top-deg-cell__container">
+                                    <span id="top-deg-cell__value1" class="top-deg-cell__value sub-zero sub--5"></span>
+                                </div>
+                            </td>
+                            <td id="top-deg-cell1" class="top-deg-cell" data-temp="sub-5">
+                                <div class="top-deg-cell__container">
+                                    <span id="top-deg-cell__value2" class="top-deg-cell__value sub-zero"></span>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr class="row min-deg">
+                            <th class="bot-deg">Min °C</th>
+                            <td id="min-deg-cell" class="min-deg-cell" data-temp="sub-5">
+                                <div class="min-deg-cell__container">
+                                    <span id="min-deg-cell__value1" class="min-deg-cell__value"></span>
+                                </div>
+                            </td>
+                            <td id="min-deg-cell1" class="min-deg-cell" data-temp="sub-5">
+                                <div class="min-deg-cell__container">
+                                    <span id="min-deg-cell__value2" class="min-deg-cell__value"></span>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr class="row chill-deg">
+                            <th class="chill-degr">Chill °C</th>
+                            <td id="chill-deg-cell1" class="chill-deg-cell" data-temp="sub-zero">
+                                <div class="chill-deg-cell__container">
+                                    <span id="chill-deg-cell__value1" class="chill-deg-cell__value"></span>
+                                </div>
+                            </td>
+                            <td id="chill-deg-cell2" class="chill-deg-cell" data-temp="sub-zero">
+                                <div class="chill-deg-cell__container">
+                                    <span id="chill-deg-cell__value2" class="chill-deg-cell__value"></span>
+                                </div>
+                            </td>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    
+</body>
+</html>

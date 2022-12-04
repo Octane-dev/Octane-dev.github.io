@@ -1,0 +1,8 @@
+﻿Day,Date,Peak_Wind_Gust_kmh,Mid_Wind_Gust_kmh,Valley_Wind_Gust_kmh,Peak_Wind_Speed_kmh,Mid_Wind_Speed_kmh,Valley_Wind_Speed_kmh,Peak_Min_Temp,Peak_Max_Temp,Peak_Feels_Like,Mid_Min_Temp,Mid_Max_Temp,Mid_Feels_Like,Valley_Min_Temp,Valley_Max_Temp,Valley_Feels_Like,Inversion,Peak_Weather2,Peak_Weather5,Mid_Weather2,Mid_Weather5,Valley_Weather2,Valley_Weather5,Peak_Rain_mm,Mid_Rain_mm,Valley_Rain_mm,Peak_Snow_cm,Mid_Snow_cm,Valley_Snow_cm,Thunder,Peak_Snow_depth_cm,Mid_Snow_depth_cm,Base_Snow_depth_cm,
+3054,09/11/2022,38,22,12,20,12,6,-12,-6,-23,-7,-5,-15,-2,2,-6,,Sunny,,Sunny,,Sunny,,0,0,0,0,0,0,,36,7,0,
+3055,10/11/2022,1,1,0,1,1,0,-19,-19,-19,-17,-13,-15,-14,-12,-10,,Snow,Snow Showers,Snow,Snow Showers,Snow,Snow Showers,0,0,0,2,2,1,,38,9,1,
+3056,11/11/2022,37,21,11,19,11,6,-20,-19,-34,-18,-15,-28,-15,-15,-22,,Snow,Snow Showers,Snow,Snow Showers,Snow,Snow Showers,0,0,0,2,2,1,,36,9,2,
+3057,12/11/2022,10,6,3,10,6,3,-20,-17,-27,-17,-6,-21,-9,-9,-11,,Snow,Snow Showers,Sunny,,Sunny,,0,0,0,2,0,0,,38,9,2,
+3058,13/11/2022,6,3,2,6,3,2,-19,-19,-23,-16,-10,-18,-14,-10,-14,,Snow,Snow Showers,Snow,Snow Showers,Snow,Snow Showers,0,0,0,4,3,2,,41,11,4,
+3059,14/11/2022,0,0,0,0,0,0,-14,-11,-4,-16,-10,-6,-19,-11,-8,Yes,Sunny,,Sunny,,Fog,,0,0,0,0,0,0,,38,5,4,
+3060,15/11/2022,51,30,16,28,17,9,-18,-17,-33,-15,-10,-27,-13,-10,-21,,Snow,Snow Showers,Snow,Snow Showers,Snow,Snow Showers,0,0,0,2,1,1,,36,5,5,

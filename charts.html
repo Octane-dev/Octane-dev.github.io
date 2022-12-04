@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+</head>
+<body>
+    <canvas id="snowfall" style="width:100%;max-width:900px"></canvas>
+    <!-- <canvas id="rain" style="width:100%;max-width:900px"></canvas> -->
+    <canvas id="rainfall" style="width:100%;max-width:900px"></canvas>
+    <canvas id="rainfall1" style="width:100%;max-width:900px"></canvas>
+    <canvas id="snowdepth" style="width:100%;max-width:900px;"></canvas>
+    <canvas id="snowfall1" style="width:100%;max-width:900px"></canvas>
+    <canvas id="snowdepth1" style="width:100%;max-width:900px"></canvas>
+<script>
+// Load the dataset
+// d3.csv('csv/data/test/WeatherHeavensPeakNew_21-22.csv').then(makeChart);
+// d3.csv('csv/data/official/data_hp copy.csv').then(makeCharta);
+// d3.csv('csv/data/official/data_hp_archive_2014-7 copy.csv').then(makeChart2);
+// d3.csv('csv/data/official/data_hp_archive_2014-7 copy.csv').then(makeChart21);
+// d3.csv('csv/data/test/WeatherHeavensPeakNew_21-22.csv').then(makeChart3);
+d3.csv('csv/data/official/data_hp_snowfall_22-23.csv').then(makeChart4);
+d3.csv('csv/data/official/data_hp_snowfall_22-23.csv').then(makeChart5);
+
+// Plot the data with Chart.js
+function makeChart(snowfall) {
+var colours = ["#d41121","#0052cc"]
+var countryLabels = snowfall.map(function (d) {
+    return d.Date;
+});
+var populationData = snowfall.map(function (d) {
+    return d.Peak_Snow_cm;
+});
+var populationData1 = snowfall.map(function (d) {
+    return d.Mid_Snow_cm;
+});
+var populationData2 = snowfall.map(function (d) {
+    return d.Valley_Snow_cm;
+});
+var populationData11 = snowfall.map(function (d) {
+    return d.Peak_Rain_mm;
+});
+var populationData22 = snowfall.map(function (d) {
+    return d.Mid_Rain_mm;
+});
+var populationData33 = snowfall.map(function (d) {
+    return d.Valley_Rain_mm;
+});
+
+var chart = new Chart("snowfall", {
+    type: "bar",
+    data: {
+    labels: countryLabels,
+    datasets: [
+        {
+        backgroundColor: colours[0],
+        data: populationData
+        },
+        {
+        backgroundColor: colours[1],
+        data: populationData11
+        }
+    ]
+    },
+    options: {
+    legend: {display: false},
+    title: {
+      display: true,
+      text: "Snowfall (cm) / Rainfall (mm) Season 2021-2022"
+    }
+  }
+});
+}
+// function makeCharta(rain) {
+// var colours = "#0052cc"
+// var countryLabels = rain.map(function (d) {
+//     return d.Date;
+// });
+// var populationData = rain.map(function (d) {
+//     return d.Peak_Rain_mm;
+// });
+// var populationData1 = rain.map(function (d) {
+//     return d.Mid_Rain_mm;
+// });
+// var populationData2 = rain.map(function (d) {
+//     return d.Valley_Rain_mm;
+// });
+
+// var chart = new Chart("rain", {
+//     type: "bar",
+//     data: {
+//     labels: countryLabels,
+//     datasets: [
+//         {
+//         backgroundColor: colours,
+//         data: populationData 
+//         }
+//     ]
+//     },
+//     options: {
+//     legend: {display: false},
+//     title: {
+//       display: true,
+//       text: "Rainfall Season 2021-2022"
+//     }
+//   }
+// });
+// }
+function makeChart2(windspd) {
+var colours = ["rgba(0,0,0,0)","#ff00ff","#8000ff","#0000ff","#007fff","#00ffff","#00ff7f"]
+var countryLabels = windspd.map(function (d) {
+    return d.Date;
+});
+var populationData = windspd.map(function (d) {
+    return d.Peak_Min_Temp;
+});
+var populationData1 = windspd.map(function (d) {
+    return d.Peak_Max_Temp;
+});
+var populationData2 = windspd.map(function (d) {
+    return d.Mid_Min_Temp;
+});
+var populationData21 = windspd.map(function (d) {
+    return d.Mid_Max_Temp;
+});
+var populationData3 = windspd.map(function (d) {
+    return d.Valley_Min_Temp;
+});
+var populationData31 = windspd.map(function (d) {
+    return d.Valley_Max_Temp;
+});
+
+var chart = new Chart("rainfall", {
+    type: "line",
+    data: {
+    labels: countryLabels,
+    datasets: [
+        {
+        label: "Peak Min Temp",
+        backgroundColor: colours[0],
+        borderColor: colours[1],
+        data: populationData
+        },
+        // {
+        // label: "Peak Max Temp",
+        // backgroundColor: colours[0],
+        // borderColor: colours[2],
+        // data: populationData1
+        // },
+        {
+        label: "Mid Min Temp",
+        backgroundColor: colours[0],
+        borderColor: colours[3],
+        data: populationData2
+        },
+        // {
+        // label: "Mid Max Temp",
+        // backgroundColor: colours[0],
+        // borderColor: colours[4],
+        // data: populationData21
+        // },
+        {
+        label: "Valley Min Temp",
+        backgroundColor: colours[0],
+        borderColor: colours[5],
+        data: populationData3
+        },
+        // {
+        // label: "Valley Max Temp",
+        // backgroundColor: colours[0],
+        // borderColor: colours[6],
+        // data: populationData31
+        // }
+    ]
+    },
+    options: {
+    legend: {display: true},
+    title: {
+      display: true,
+      text: "Min Temp Season 2021-2022 (°C)"
+    }
+  }
+});
+}
+function makeChart21(windspd) {
+var colours = ["rgba(0,0,0,0)","#ff00ff","#8000ff","#0000ff","#007fff","#00ffff","#00ff7f"]
+var countryLabels = windspd.map(function (d) {
+    return d.Date;
+});
+var populationData = windspd.map(function (d) {
+    return d.Peak_Min_Temp;
+});
+var populationData1 = windspd.map(function (d) {
+    return d.Peak_Max_Temp;
+});
+var populationData2 = windspd.map(function (d) {
+    return d.Mid_Min_Temp;
+});
+var populationData21 = windspd.map(function (d) {
+    return d.Mid_Max_Temp;
+});
+var populationData3 = windspd.map(function (d) {
+    return d.Valley_Min_Temp;
+});
+var populationData31 = windspd.map(function (d) {
+    return d.Valley_Max_Temp;
+});
+
+var chart = new Chart("rainfall1", {
+    type: "line",
+    data: {
+    labels: countryLabels,
+    datasets: [
+        // {
+        // label: "Peak Min Temp",
+        // backgroundColor: colours[0],
+        // borderColor: colours[1],
+        // data: populationData
+        // },
+        {
+        label: "Peak Max Temp",
+        backgroundColor: colours[0],
+        borderColor: colours[2],
+        data: populationData1
+        },
+        // {
+        // label: "Mid Min Temp",
+        // backgroundColor: colours[0],
+        // borderColor: colours[3],
+        // data: populationData2
+        // },
+        {
+        label: "Mid Max Temp",
+        backgroundColor: colours[0],
+        borderColor: colours[4],
+        data: populationData21
+        },
+        // {
+        // label: "Valley Min Temp",
+        // backgroundColor: colours[0],
+        // borderColor: colours[5],
+        // data: populationData3
+        // },
+        {
+        label: "Valley Max Temp",
+        backgroundColor: colours[0],
+        borderColor: colours[6],
+        data: populationData31
+        }
+    ]
+    },
+    options: {
+    legend: {display: true},
+    title: {
+      display: true,
+      text: "Max Temp Season 2021-2022 (°C)"
+    }
+  }
+});
+}
+function makeChart3(snowdepth) {
+var colours = "rgba(0,0,0,0)"
+var colours1 = "#ff00ff"
+var colours2 = "#007fff"
+var colours3 = "#00ff7f"
+var countryLabels = snowdepth.map(function (d) {
+    return d.Date;
+});
+var peakDepth = snowdepth.map(function (d) {
+    return d.Peak_Snow_depth_cm;
+});
+var midDepth = snowdepth.map(function (d) {
+    return d.Mid_Snow_depth_cm;
+});
+var botDepth = snowdepth.map(function (d) {
+    return d.Base_Snow_depth_cm;
+});
+
+var chart = new Chart("snowdepth", {
+    type: "line",
+    data: {
+    labels: countryLabels,
+    datasets: [
+        {
+        label: "Peak",
+        backgroundColor: colours,
+        borderColor: colours1,
+        data: peakDepth,
+        },
+        {
+        label: "Mid",
+        backgroundColor: colours,
+        borderColor: colours2,
+        data: midDepth,
+        },
+        {
+        label: "Valley",
+        backgroundColor: colours,
+        borderColor: colours3,
+        data: botDepth 
+        }
+    ]
+    },
+    options: {
+    legend: {display: true},
+    title: {
+      display: true,
+      text: "Snow depth Season 2021-2022 (cm)"
+    }
+  }
+});
+}
+function makeChart4(snowdepth1) {
+var colours = "rgba(0,0,0,0)"
+var colours1 = "#ff00ff"
+var colours2 = "#007fff"
+var colours3 = "#00ff7f"
+var colours4 = "#0052cc"
+var colours5 = "#d41121"
+var countryLabels = snowdepth1.map(function (d) {
+    return d.Date;
+});
+var peakDepth = snowdepth1.map(function (d) {
+    return d.Peak_Snow_depth_cm;
+});
+var midDepth = snowdepth1.map(function (d) {
+    return d.Mid_Snow_depth_cm;
+});
+var botDepth = snowdepth1.map(function (d) {
+    return d.Base_Snow_depth_cm;
+});
+var rangerDepth = snowdepth1.map(function (d) {
+    return d.Ranger_Snow_depth_cm;
+});
+var arenaDepth = snowdepth1.map(function (d) {
+    return d.Arena_Snow_depth_cm;
+});
+
+var chart = new Chart("snowdepth1", {
+    type: "line",
+    data: {
+    labels: countryLabels,
+    datasets: [
+        {
+        label: "Peak",
+        backgroundColor: colours,
+        borderColor: colours1,
+        data: peakDepth,
+        tension: 0
+        },
+        {
+        label: "Mid",
+        backgroundColor: colours,
+        borderColor: colours2,
+        data: midDepth,
+        tension: 0
+        },
+        {
+        label: "Valley",
+        backgroundColor: colours,
+        borderColor: colours3,
+        data: botDepth,
+        tension: 0
+        },
+        {
+        label: "Rangers",
+        backgroundColor: colours,
+        borderColor: colours4,
+        data: rangerDepth,
+        tension: 0
+        },
+        {
+        label: "Arena",
+        backgroundColor: colours,
+        borderColor: colours5,
+        data: arenaDepth,
+        tension: 0
+        }
+    ]
+    },
+    options: {
+    legend: {display: true},
+    title: {
+      display: true,
+      text: "Snow depth Season 2022-2023 (cm)"
+    }
+  }
+});
+}
+function makeChart5(snowfall1) {
+var colours = ["#d41121","#0052cc"]
+var countryLabels = snowfall1.map(function (d) {
+    return d.Date;
+});
+var populationData = snowfall1.map(function (d) {
+    return d.Peak_Snow_cm;
+});
+var populationData1 = snowfall1.map(function (d) {
+    return d.Mid_Snow_cm;
+});
+var populationData2 = snowfall1.map(function (d) {
+    return d.Valley_Snow_cm;
+});
+var populationData11 = snowfall1.map(function (d) {
+    return d.Peak_Rain_mm;
+});
+var populationData22 = snowfall1.map(function (d) {
+    return d.Mid_Rain_mm;
+});
+var populationData33 = snowfall1.map(function (d) {
+    return d.Valley_Rain_mm;
+});
+var populationData44 = snowfall1.map(function (d) {
+    return d.Ranger_Snow;
+});
+var populationData55 = snowfall1.map(function (d) {
+    return d.Arena_Snow;
+});
+var chart = new Chart("snowfall1", {
+    type: "bar",
+    data: {
+    labels: countryLabels,
+    datasets: [
+        {
+        backgroundColor: colours[0],
+        data: populationData,
+        pointHoverRadius: "30"
+        },
+        // {
+        // backgroundColor: colours[0],
+        // data: populationData44
+        // },
+        // {
+        // backgroundColor: colours[0],
+        // data: populationData55
+        // },
+        {
+        backgroundColor: colours[1],
+        data: populationData11
+        }
+    ]
+    },
+    options: {
+    legend: {display: false},
+    title: {
+      display: true,
+      text: "Snowfall (cm) / Rainfall (mm) Season 2022-2023"
+    }
+  }
+});
+}
+</script>
+</body>
+</html>

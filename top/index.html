@@ -1,0 +1,1685 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/styles.css">
+    <!-- <script src="/freezinglevel.js"></script> -->
+    <!-- <script src="fs.js"></script> -->
+
+    <title>Forecast | Top</title>
+</head>
+<body onload="lines()">
+    <!-- <form id="myForm">
+        <input type="file" id="csvFile" accept=".csv" />
+        <br />
+        <input type="submit" value="Submit" />
+    </form> -->
+    <script type="text/javascript">
+        const date = new Date().toLocaleDateString();
+        console.log(date); // 6/17/2022
+
+        const myForm = document.getElementById("myForm");
+        const csvFilePath = 'weatherHeavenPeak.csv'
+        const array = [{"Date":"06/11/2022",
+        "Temp C":"-7",
+        "Feels Like C":"-24",
+        "Wind Gust kmh":"90",
+        "Wind Speed kmh":"50",
+        "Weather2":"Heavy Snow",
+        "Blizzard?":"",
+        "Weather4":"",
+        "Snow Depth cm":"20",
+        "Thunder Chance":""},
+        {"Date":"07/11/2022",
+        "Temp C":"-1",
+        "Feels Like C":"-12",
+        "Wind Gust kmh":"30",
+        "Wind Speed kmh":"20",
+        "Weather2":"Mod Snow",
+        "Blizzard?":"",
+        "Weather4":"",
+        "Snow Depth cm":"5",
+        "Thunder Chance":""}]
+        const csvFile = array;
+        console.log(csvFile)
+
+
+        // myForm.addEventListener("submit", function (e) {
+        // e.preventDefault();
+        // const input = csvFile;
+        // const reader = new FileReader();
+
+        // reader.onload = function (e) {
+        //     const text = e.target.result;
+        //     console.log(text);
+        // };
+
+        // reader.onload = function (e) {
+        //     const text = e.target.result;
+        //     const data = csvToArray(text);
+        //     console.log(data)
+        //     // const items = data.find(item => item.arrayWithvalue.indexOf(date) !== -1);
+        //     const temp = data.includes(date);
+        //     console.log(date,temp);
+            // const json_weather = JSON.stringify(data);
+        // console.log(Date)
+        // };
+        // });
+        
+    </script>
+    <!-- <script src="/node_modules/fs-js/index.js"></script> -->
+    <script type="text/javascript">
+        // const fs = require('fs');
+        // var fs = require('fs-js');
+        // const Papa = require('papaparse');
+        // const csvFilePath = 'weatherHeavenPeak.csv'
+        // var csvData=[];
+        // Papa.parse(file, {
+        // header: true,
+        // step: function(result) {
+        //     csvData.push(result.data)
+        // },
+        // complete: function(results, file) {
+        //     console.log('Complete', csvData.length, 'records.'); 
+        // }
+        // });
+
+        // var headers = getCsvValuesFromLine(lines[0]);
+    </script>
+    <div class="forecast-main">
+        <div class="content">
+            <div class="table">
+                <table class="forecast-table">
+                    <caption style="z-index:3;position: relative;right:33.3%;font-weight:700;color:var(--snow);"><a title="View Base Forecast" style="text-decoration: underline;font-weight:700;color:var(--snow);" href="/">Top (1700m)</a> | Updates in: <span id="update" style="position: absolute;left:57.5%;color: black;font-weight: 400;"></span></caption>
+                    <script type="text/javascript">
+                        // Set the date we're counting down to
+                        const d2 = new Date();
+                        d2.setHours(24, 0, 0, 0);
+
+                        // Update the count down every 1 second
+                        var x = setInterval(function() {
+
+                        // Get today's date and time
+                        var now = new Date().getTime();
+
+                        // Find the distance between now and the count down date
+                        var distance = d2 - now;
+
+                        // Time calculations for days, hours, minutes and seconds
+                        var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                        var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                        var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                        var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+                        // Display the result in the element with id="demo"
+                        document.getElementById("update").innerHTML = days + "d " + hours + "h "
+                        + minutes + "m " + seconds + "s ";
+
+                        // If the count down is finished, write some text
+                        if (distance < 0) {
+                            clearInterval(x);
+                            document.getElementById("update").innerHTML = "Updated!";
+                        }
+                        }, 1000);
+                    </script>
+                    <thead>
+                        <tr class="forecast-days">
+                            <th class="datez"></th>
+                            <td class="date"><span id="day1"><span><br><span id="date1"></span></td>
+                            <td class="date"><span id="day2"><span><br><span id="date2"></span></td>
+                            <td class="date"><span id="day3"><span><br><span id="date3"></span></td>
+                            <td class="date"><span id="day4"><span><br><span id="date4"></span></td>
+                            <td class="date"><span id="day5"><span><br><span id="date5"></span></td>
+                            <td class="date"><span id="day6"><span><br><span id="date6"></span></td>
+                            <td class="date"><span id="day7"><span><br><span id="date7"></span></td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="row weather">
+                            <th class="wether"></th>
+                            <td class="phrase-cell">
+                                <div class="phrase-cell__container">
+                                    <span id="w1-ph" class="phrase-cell__value" data-wthr="">-</span>
+                                </div>
+                            </td>
+                            <td class="phrase-cell">
+                                <div class="phrase-cell__container">
+                                    <span id="w2-ph" class="phrase-cell__value" data-wthr="">-</span>
+                                </div>
+                            </td>
+                            <td class="phrase-cell">
+                                <div class="phrase-cell__container">
+                                    <span id="w3-ph" class="phrase-cell__value" data-wthr="">-</span>
+                                </div>
+                            </td>
+                            <td class="phrase-cell">
+                                <div class="phrase-cell__container">
+                                    <span id="w4-ph" class="phrase-cell__value" data-wthr="">-</span>
+                                </div>
+                            </td>
+                            <td class="phrase-cell">
+                                <div class="phrase-cell__container">
+                                    <span id="w5-ph" class="phrase-cell__value" data-wthr="">-</span>
+                                </div>
+                            </td>
+                            <td class="phrase-cell">
+                                <div class="phrase-cell__container">
+                                    <span id="w6-ph" class="phrase-cell__value" data-wthr="">-</span>
+                                </div>
+                            </td>
+                            <td class="phrase-cell">
+                                <div class="phrase-cell__container">
+                                    <span id="w7-ph" class="phrase-cell__value" data-wthr="">-</span>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr class="row wind">
+                            <th class="windz"></th>
+                            <td class="wind-cell">
+                                <div class="wind-cell__container">
+                                    <span class="wind-cell__value-spd"><span id="wind1">-</span> km/h</span>
+                                    <span class="wind-cell__value-dir">-</span>
+                                </div>
+                            </td>
+                            <td class="wind-cell">
+                                <div class="wind-cell__container">
+                                    <span class="wind-cell__value-spd"><span id="wind2">-</span> km/h</span>
+                                    <span class="wind-cell__value-dir">-</span>
+                                </div>
+                            </td>
+                            <td class="wind-cell">
+                                <div class="wind-cell__container">
+                                    <span class="wind-cell__value-spd"><span id="wind3">-</span> km/h</span>
+                                    <span class="wind-cell__value-dir">-</span>
+                                </div>
+                            </td>
+                            <td class="wind-cell">
+                                <div class="wind-cell__container">
+                                    <span class="wind-cell__value-spd"><span id="wind4">-</span> km/h</span>
+                                    <span class="wind-cell__value-dir">-</span>
+                                </div>
+                            </td>
+                            <td class="wind-cell">
+                                <div class="wind-cell__container">
+                                    <span class="wind-cell__value-spd"><span id="wind5">-</span> km/h</span>
+                                    <span class="wind-cell__value-dir">-</span>
+                                </div>
+                            </td>
+                            <td class="wind-cell">
+                                <div class="wind-cell__container">
+                                    <span class="wind-cell__value-spd"><span id="wind6">-</span> km/h</span>
+                                    <span class="wind-cell__value-dir">-</span>
+                                </div>
+                            </td>
+                            <td class="wind-cell">
+                                <div class="wind-cell__container">
+                                    <span class="wind-cell__value-spd"><span id="wind7">-</span> km/h</span>
+                                    <span class="wind-cell__value-dir">-</span>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr class="row snow">
+                            <th class="snow-cm">Snow cm</th>
+                            <td class="snow-cell">
+                                <div class="snow-cell__container">
+                                    <span id="snow-cell__value" class="snow-cell__value">-</span>
+                                    <span id="snow-cell__fill" class="snow-cell__fill" style="height: 45px;"></span>
+                                </div>
+                            </td>
+                            <td class="snow-cell">
+                                <div class="snow-cell__container">
+                                    <span id="snow-cell__value1" class="snow-cell__value">-</span>
+                                    <span id="snow-cell__fill1" class="snow-cell__fill1" style="height: 45px;"></span>
+                                </div>
+                            </td>
+                            <td class="snow-cell">
+                                <div class="snow-cell__container">
+                                    <span id="snow-cell__value2" class="snow-cell__value">-</span>
+                                    <span id="snow-cell__fill2" class="snow-cell__fill2" style="height: 45px;"></span>
+                                </div>
+                            </td>
+                            <td class="snow-cell">
+                                <div class="snow-cell__container">
+                                    <span id="snow-cell__value3" class="snow-cell__value">-</span>
+                                    <span id="snow-cell__fill3" class="snow-cell__fill3" style="height: 45px;"></span>
+                                </div>
+                            </td>
+                            <td class="snow-cell">
+                                <div class="snow-cell__container">
+                                    <span id="snow-cell__value4" class="snow-cell__value">-</span>
+                                    <span id="snow-cell__fill4" class="snow-cell__fill4" style="height: 45px;"></span>
+                                </div>
+                            </td>
+                            <td class="snow-cell">
+                                <div class="snow-cell__container">
+                                    <span id="snow-cell__value5" class="snow-cell__value">-</span>
+                                    <span id="snow-cell__fill5" class="snow-cell__fill5" style="height: 45px;"></span>
+                                </div>
+                            </td>
+                            <td class="snow-cell">
+                                <div class="snow-cell__container">
+                                    <span id="snow-cell__value6" class="snow-cell__value">-</span>
+                                    <span id="snow-cell__fill6" class="snow-cell__fill6" style="height: 45px;"></span>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr class="row rain">
+                            <th class="rain-mm">Rain mm</th>
+                            <td class="rain-cell">
+                                <div class="rain-cell__container">
+                                    <span id="rain-cell__value" class="rain-cell__value">-</span>
+                                    <span id="rain-cell__fill" class="rain-cell__fill" style="height: 45px;"></span>
+                                </div>
+                            </td>
+                            <td class="rain-cell">
+                                <div class="rain-cell__container">
+                                    <span id="rain-cell__value1" class="rain-cell__value">-</span>
+                                    <span id="rain-cell__fill1" class="rain-cell__fill1" style="height: 45px;"></span>
+                                </div>
+                            </td>
+                            <td class="rain-cell">
+                                <div class="rain-cell__container">
+                                    <span id="rain-cell__value2" class="rain-cell__value">-</span>
+                                    <span id="rain-cell__fill2" class="rain-cell__fill2" style="height: 45px;"></span>
+                                </div>
+                            </td>
+                            <td class="rain-cell">
+                                <div class="rain-cell__container">
+                                    <span id="rain-cell__value3" class="rain-cell__value">-</span>
+                                    <span id="rain-cell__fill3" class="rain-cell__fill3" style="height: 45px;"></span>
+                                </div>
+                            </td>
+                            <td class="rain-cell">
+                                <div class="rain-cell__container">
+                                    <span id="rain-cell__value4" class="rain-cell__value">-</span>
+                                    <span id="rain-cell__fill4" class="rain-cell__fill4" style="height: 45px;"></span>
+                                </div>
+                            </td>
+                            <td class="rain-cell">
+                                <div class="rain-cell__container">
+                                    <span id="rain-cell__value5" class="rain-cell__value">-</span>
+                                    <span id="rain-cell__fill5" class="rain-cell__fill5" style="height: 45px;"></span>
+                                </div>
+                            </td>
+                            <td class="rain-cell">
+                                <div class="rain-cell__container">
+                                    <span id="rain-cell__value6" class="rain-cell__value">-</span>
+                                    <span id="rain-cell__fill6" class="rain-cell__fill6" style="height: 45px;"></span>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr class="row top-deg">
+                            <th class="max-deg">Max °C</th>
+                            <td id="top-deg-cell" class="top-deg-cell" data-temp="sub-5">
+                                <div class="top-deg-cell__container">
+                                    <span id="top-deg-cell__value1" class="top-deg-cell__value sub-zero sub--5"></span>
+                                </div>
+                            </td>
+                            <td id="top-deg-cell1" class="top-deg-cell" data-temp="sub-5">
+                                <div class="top-deg-cell__container">
+                                    <span id="top-deg-cell__value2" class="top-deg-cell__value sub-zero"></span>
+                                </div>
+                            </td>
+                            <td id="top-deg-cell2" class="top-deg-cell" data-temp="sub-5">
+                                <div class="top-deg-cell__container">
+                                    <span id="top-deg-cell__value3" class="top-deg-cell__value sub-zero sub--5"></span>
+                                </div>
+                            </td>
+                            <td id="top-deg-cell3" class="top-deg-cell" data-temp="sub-5">
+                                <div class="top-deg-cell__container">
+                                    <span id="top-deg-cell__value4" class="top-deg-cell__value sub-zero"></span>
+                                </div>
+                            </td>
+                            <td id="top-deg-cell4" class="top-deg-cell" data-temp="sub-5">
+                                <div class="top-deg-cell__container">
+                                    <span id="top-deg-cell__value5" class="top-deg-cell__value sub-zero sub--5"></span>
+                                </div>
+                            </td>
+                            <td id="top-deg-cell5" class="top-deg-cell" data-temp="sub-5">
+                                <div class="top-deg-cell__container">
+                                    <span id="top-deg-cell__value6" class="top-deg-cell__value sub-zero sub--5"></span>
+                                </div>
+                            </td>
+                            <td id="top-deg-cell6" class="top-deg-cell" data-temp="sub-5">
+                                <div class="top-deg-cell__container">
+                                    <span id="top-deg-cell__value7" class="top-deg-cell__value sub-zero sub--5"></span>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr class="row min-deg">
+                            <th class="bot-deg">Min °C</th>
+                            <td id="min-deg-cell" class="min-deg-cell" data-temp="sub-5">
+                                <div class="min-deg-cell__container">
+                                    <span id="min-deg-cell__value1" class="min-deg-cell__value"></span>
+                                </div>
+                            </td>
+                            <td id="min-deg-cell1" class="min-deg-cell" data-temp="sub-5">
+                                <div class="min-deg-cell__container">
+                                    <span id="min-deg-cell__value2" class="min-deg-cell__value"></span>
+                                </div>
+                            </td>
+                            <td id="min-deg-cell2" class="min-deg-cell" data-temp="sub-5">
+                                <div class="min-deg-cell__container">
+                                    <span id="min-deg-cell__value3" class="min-deg-cell__value"></span>
+                                </div>
+                            </td>
+                            <td id="min-deg-cell3" class="min-deg-cell" data-temp="sub-5">
+                                <div class="min-deg-cell__container">
+                                    <span id="min-deg-cell__value4" class="min-deg-cell__value"></span>
+                                </div>
+                            </td>
+                            <td id="min-deg-cell4" class="min-deg-cell" data-temp="sub-5">
+                                <div class="min-deg-cell__container">
+                                    <span id="min-deg-cell__value5" class="min-deg-cell__value"></span>
+                                </div>
+                            </td>
+                            <td id="min-deg-cell5" class="min-deg-cell" data-temp="sub-5">
+                                <div class="min-deg-cell__container">
+                                    <span id="min-deg-cell__value6" class="min-deg-cell__value"></span>
+                                </div>
+                            </td>
+                            <td id="min-deg-cell6" class="min-deg-cell" data-temp="sub-5">
+                                <div class="min-deg-cell__container">
+                                    <span id="min-deg-cell__value7" class="min-deg-cell__value"></span>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr class="row chill-deg">
+                            <th class="chill-degr">Chill °C</th>
+                            <td id="chill-deg-cell" class="chill-deg-cell" data-temp="sub-zero">
+                                <div class="chill-deg-cell__container">
+                                    <span id="chill-deg-cell__value1" class="chill-deg-cell__value"></span>
+                                </div>
+                            </td>
+                            <td id="chill-deg-cell1" class="chill-deg-cell" data-temp="sub-zero">
+                                <div class="chill-deg-cell__container">
+                                    <span id="chill-deg-cell__value2" class="chill-deg-cell__value"></span>
+                                </div>
+                            </td>
+                            <td id="chill-deg-cell2" class="chill-deg-cell" data-temp="sub-zero">
+                                <div class="chill-deg-cell__container">
+                                    <span id="chill-deg-cell__value3" class="chill-deg-cell__value"></span>
+                                </div>
+                            </td>
+                            <td id="chill-deg-cell3" class="chill-deg-cell" data-temp="sub-zero">
+                                <div class="chill-deg-cell__container">
+                                    <span id="chill-deg-cell__value4" class="chill-deg-cell__value"></span>
+                                </div>
+                            </td>
+                            <td id="chill-deg-cell4" class="chill-deg-cell" data-temp="sub-zero">
+                                <div class="chill-deg-cell__container">
+                                    <span id="chill-deg-cell__value5" class="chill-deg-cell__value"></span>
+                                </div>
+                            </td>
+                            <td id="chill-deg-cell5" class="chill-deg-cell" data-temp="sub-zero">
+                                <div class="chill-deg-cell__container">
+                                    <span id="chill-deg-cell__value6" class="chill-deg-cell__value"></span>
+                                </div>
+                            </td>
+                            <td id="chill-deg-cell6" class="chill-deg-cell" data-temp="sub-zero">
+                                <div class="chill-deg-cell__container">
+                                    <span id="chill-deg-cell__value7" class="chill-deg-cell__value"></span>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr class="row picture">
+                            <th class="freezing-level">Freezing Level</th>
+                            <th id="freezing-point" class="freezing-point1">2000m</th>
+                            <th id="freezing-point" class="freezing-point2">1500m</th>
+                            <th id="freezing-point" class="freezing-point3">1000m</th>
+                            <th id="freezing-point" class="freezing-point4">500m</th>
+                            <th id="freezing-point" class="freezing-point5">0m</th>
+                            <div class="picture-container" style="display: flex;justify-content:center;">
+                                <img src="/freezing-graph_backdrop-snow-4de4387d27ad6336a9ea8426d9c327db.png" alt="" style="position: absolute;top:49%;left: 12.8%;border: 1px solid #000;">
+                            </div>
+                            <div class="data">
+                                <div class="lines">
+                                    <span class="line1"></span>
+                                    <span class="line2"></span>
+                                    <span class="line3"></span>
+                                    <span class="line4"></span>
+                                    <span class="line5"></span>
+                                    <span class="heightline1"></span>
+                                    <span class="heightline2"></span>
+                                </div>
+                                <div class="points">
+                                    <span class="point" style="position: absolute;left: 250px;top: 675px;z-index: 5;"></span>
+                                    <span class="point" style="position: absolute;left: 420px;top: 650px;z-index: 5;"></span>
+                                    <span class="point" style="position: absolute;left: 570px;top: 640px;z-index: 5;"></span>
+                                    <span class="point" style="position: absolute;left: 730px;top: 670px;z-index: 5;"></span>
+                                    <span class="point" style="position: absolute;left: 890px;top: 725px;z-index: 5;"></span>
+                                    <span class="point" style="position: absolute;left: 1075px;top: 725px;z-index: 5;"></span>
+                                    <span class="point" style="position: absolute;left: 1220px;top: 705px;z-index: 5;"></span>
+                                    <span class="line"></span>
+                                    <span class="line"></span>
+                                    <span class="line"></span>
+                                    <span class="line"></span>
+                                    <span class="line"></span>
+                                    <span class="line"></span>
+                                </div>
+                            </div>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <!-- Scripts 
+    Freezing Level -->
+    <script type="text/javascript">
+        const point1 = document.getElementsByClassName('point')[0]
+        const point2 = document.getElementsByClassName('point')[1]
+        const point3 = document.getElementsByClassName('point')[2]
+        const point4 = document.getElementsByClassName('point')[3]
+        const point5 = document.getElementsByClassName('point')[4]
+        const point6 = document.getElementsByClassName('point')[5]
+        const point7 = document.getElementsByClassName('point')[6]
+        const line = document.getElementsByClassName('line')[0]
+        const line1 = document.getElementsByClassName('line')[1]
+        const line2 = document.getElementsByClassName('line')[2]
+        const line3 = document.getElementsByClassName('line')[3]
+        const line4 = document.getElementsByClassName('line')[4]
+        const line5 = document.getElementsByClassName('line')[5]
+        function lines(){
+            function drawline1(){
+                var p1 = {x: point1.offsetLeft, y: point1.offsetTop};
+                var p2 = {x: point2.offsetLeft, y: point2.offsetTop};
+                var a = p1.x - p2.x;
+                var b = p1.y - p2.y;
+                var length = Math.sqrt( a*a + b*b );
+                var angleDeg = Math.atan2(p2.y - p1.y, p2.x - p1.x) * 180 / Math.PI;
+                var pointWidth = point1.clientWidth / 2;
+                var pointHeight = point1.clientWidth / 2;
+                line.style.width = length + 'px';
+                line.style.left = (p1.x + pointWidth)+ 'px';
+                line.style.top = (p1.y + pointHeight) + 'px';
+                line.style.transform = "rotate(" + angleDeg + "deg)";
+            }
+            function drawline2(){
+                var p1 = {x: point2.offsetLeft, y: point2.offsetTop};
+                var p2 = {x: point3.offsetLeft, y: point3.offsetTop};
+                var a = p1.x - p2.x;
+                var b = p1.y - p2.y;
+                var length = Math.sqrt( a*a + b*b );
+                var angleDeg = Math.atan2(p2.y - p1.y, p2.x - p1.x) * 180 / Math.PI;
+                var pointWidth = point1.clientWidth / 2;
+                var pointHeight = point1.clientWidth / 2;
+                line1.style.width = length + 'px';
+                line1.style.left = (p1.x + pointWidth)+ 'px';
+                line1.style.top = (p1.y + pointHeight) + 'px';
+                line1.style.transform = "rotate(" + angleDeg + "deg)";
+            }
+            function drawline3(){
+                var p1 = {x: point3.offsetLeft, y: point3.offsetTop};
+                var p2 = {x: point4.offsetLeft, y: point4.offsetTop};
+                var a = p1.x - p2.x;
+                var b = p1.y - p2.y;
+                var length = Math.sqrt( a*a + b*b );
+                var angleDeg = Math.atan2(p2.y - p1.y, p2.x - p1.x) * 180 / Math.PI;
+                var pointWidth = point1.clientWidth / 2;
+                var pointHeight = point1.clientWidth / 2;
+                line2.style.width = length + 'px';
+                line2.style.left = (p1.x + pointWidth)+ 'px';
+                line2.style.top = (p1.y + pointHeight) + 'px';
+                line2.style.transform = "rotate(" + angleDeg + "deg)";
+            }
+            function drawline4(){
+                var p1 = {x: point4.offsetLeft, y: point4.offsetTop};
+                var p2 = {x: point5.offsetLeft, y: point5.offsetTop};
+                var a = p1.x - p2.x;
+                var b = p1.y - p2.y;
+                var length = Math.sqrt( a*a + b*b );
+                var angleDeg = Math.atan2(p2.y - p1.y, p2.x - p1.x) * 180 / Math.PI;
+                var pointWidth = point1.clientWidth / 2;
+                var pointHeight = point1.clientWidth / 2;
+                line3.style.width = length + 'px';
+                line3.style.left = (p1.x + pointWidth)+ 'px';
+                line3.style.top = (p1.y + pointHeight) + 'px';
+                line3.style.transform = "rotate(" + angleDeg + "deg)";
+            }
+            function drawline5(){
+                var p1 = {x: point5.offsetLeft, y: point5.offsetTop};
+                var p2 = {x: point6.offsetLeft, y: point6.offsetTop};
+                var a = p1.x - p2.x;
+                var b = p1.y - p2.y;
+                var length = Math.sqrt( a*a + b*b );
+                var angleDeg = Math.atan2(p2.y - p1.y, p2.x - p1.x) * 180 / Math.PI;
+                var pointWidth = point1.clientWidth / 2;
+                var pointHeight = point1.clientWidth / 2;
+                line4.style.width = length + 'px';
+                line4.style.left = (p1.x + pointWidth)+ 'px';
+                line4.style.top = (p1.y + pointHeight) + 'px';
+                line4.style.transform = "rotate(" + angleDeg + "deg)";
+            }
+            function drawline6(){
+                var p1 = {x: point6.offsetLeft, y: point6.offsetTop};
+                var p2 = {x: point7.offsetLeft, y: point7.offsetTop};
+                var a = p1.x - p2.x;
+                var b = p1.y - p2.y;
+                var length = Math.sqrt( a*a + b*b );
+                var angleDeg = Math.atan2(p2.y - p1.y, p2.x - p1.x) * 180 / Math.PI;
+                var pointWidth = point1.clientWidth / 2;
+                var pointHeight = point1.clientWidth / 2;
+                line5.style.width = length + 'px';
+                line5.style.left = (p1.x + pointWidth)+ 'px';
+                line5.style.top = (p1.y + pointHeight) + 'px';
+                line5.style.transform = "rotate(" + angleDeg + "deg)";
+            }
+            drawline1()
+            drawline2()
+            drawline3()
+            drawline4()
+            drawline5()
+            drawline6()
+        }
+    </script>
+    <!-- Degrees stuff -->
+    <script type="text/javascript">
+
+getData();
+
+async function getData() {
+  // const response = await fetch('data/test/test.csv');
+  const response = await fetch('/csv/data/official/data_hp.csv');
+  const data = await response.text();
+  const headers = data.split('\n').slice(0,1);
+  const rows = data.split('\n').slice(1);
+
+  const dateNow = new Date().toLocaleDateString("en-GB");
+
+  var date = new Date(),
+  d = date.getDate(),
+  m = date.getMonth(),
+  y = date.getFullYear();
+
+    rows.forEach(elt => {
+      const row = elt.split(',');
+      var date = row[1];
+      var peak_wind_gust = row[2];
+      var mid_wind_gust = row[3];
+      var vlly_wind_gust = row[4];
+      var peak_wind_spd = row[5];
+      var mid_wind_spd = row[6];
+      var vlly_wind_spd = row[7];
+      var peak_min_tmp = row[8];
+      var peak_max_tmp = row[9];
+      var peak_feel_like = row[10];
+      var mid_min_temp = row[11];
+      var mid_max_tmp = row[12];
+      var mid_feel_like = row[13];
+      var vlly_min_tmp = row[14];
+      var vlly_max_tmp = row[15];
+      var vlly_feel_like = row[16];
+      var inversion = row[17];
+      var peak_w2 = row[18];
+      var peak_w5 = row[19];
+      var mid_w2 = row[20];
+      var mid_w5 = row[21];
+      var vlly_w2 = row[22];
+      var vlly_w5 = row[23];
+      var peak_rain = row[24];
+      var mid_rain = row[25];
+      var vlly_rain = row[26];
+      var peak_snow = row[27];
+      var mid_snow = row[28];
+      var vlly_snow = row[29];
+      var thunder = row[30];
+      var pk_snow_dph = row[31];
+      var md_snow_dph = row[32];
+      var vy_snow_dph = row[33];
+
+        const day2 = new Date(y,m,d+1).toLocaleDateString();
+        const day3 = new Date(y,m,d+2).toLocaleDateString();
+        const day4 = new Date(y,m,d+3).toLocaleDateString();
+        const day5 = new Date(y,m,d+4).toLocaleDateString();
+        const day6 = new Date(y,m,d+5).toLocaleDateString();
+        const day7 = new Date(y,m,d+6).toLocaleDateString();
+
+        const weekday = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
+        const day1d = weekday[new Date(y,m,d).getDay()];
+        const day2d = weekday[new Date(y,m,d+1).getDay()];
+        const day3d = weekday[new Date(y,m,d+2).getDay()];
+        const day4d = weekday[new Date(y,m,d+3).getDay()];
+        const day5d = weekday[new Date(y,m,d+4).getDay()];
+        const day6d = weekday[new Date(y,m,d+5).getDay()];
+        const day7d = weekday[new Date(y,m,d+6).getDay()];
+        // console.log(day1d,day2d,day3d,day4d,day5d,day6d,day7d)
+
+        const day1date = new Date(y,m,d).getDate()
+        const day2date = new Date(y,m,d+1).getDate()
+        const day3date = new Date(y,m,d+2).getDate()
+        const day4date = new Date(y,m,d+3).getDate()
+        const day5date = new Date(y,m,d+4).getDate()
+        const day6date = new Date(y,m,d+5).getDate()
+        const day7date = new Date(y,m,d+6).getDate()
+        // console.log(day1date,day7date)
+
+        const day1e = document.getElementById("day1")
+        const day2e = document.getElementById("day2")
+        const day3e = document.getElementById("day3")
+        const day4e = document.getElementById("day4")
+        const day5e = document.getElementById("day5")
+        const day6e = document.getElementById("day6")
+        const day7e = document.getElementById("day7")
+
+        day1e.innerHTML = day1d + "<br>" + day1date
+        day2e.innerHTML = day2d + "<br>" + day2date
+        day3e.innerHTML = day3d + "<br>" + day3date
+        day4e.innerHTML = day4d + "<br>" + day4date
+        day5e.innerHTML = day5d + "<br>" + day5date
+        day6e.innerHTML = day6d + "<br>" + day6date
+        day7e.innerHTML = day7d + "<br>" + day7date
+      //console.log(date,temp,feelLike,gust,speed,weather,calmness,thunder);
+      if (dateNow == date) {
+
+        if (peak_snow == "0") {
+            peak_snow = "-"
+        } 
+        else {
+            peak_snow = peak_snow
+        }
+
+        if (peak_rain == "0") {
+            peak_rain = "-"
+        } 
+        else {
+            peak_rain = peak_rain
+        }
+
+        console.log(date,peak_max_tmp,peak_min_tmp,peak_feel_like,peak_wind_spd,peak_wind_gust,peak_w2,peak_w5,peak_snow,peak_rain)
+        var peakMaxDegreeTemp_id = document.getElementById("top-deg-cell__value1");
+        peakMaxDegreeTemp_id.innerHTML = peak_max_tmp
+
+        var peakMinDegreeTemp_id = document.getElementById("min-deg-cell__value1");
+        peakMinDegreeTemp_id.innerHTML = peak_min_tmp
+
+        var peakChillDegreeTemp_id = document.getElementById("chill-deg-cell");
+        peakChillDegreeTemp_id.innerHTML = peak_feel_like
+
+        var peakSnow_id = document.getElementById("snow-cell__value");
+        peakSnow_id.innerHTML = peak_snow
+
+        var peakRain_id = document.getElementById("rain-cell__value");
+        peakRain_id.innerHTML = peak_rain
+
+        if (peak_w5 == "") {
+            var peakWeather = document.getElementById("w1-ph");
+            peakWeather.innerHTML = peak_w2
+        }
+        else {
+            var peakWeather = document.getElementById("w1-ph");
+            peakWeather.innerHTML = peak_w5
+        }
+
+        var peakWindSpeed = document.getElementById("wind1");
+        peakWindSpeed.innerHTML = peak_wind_spd
+
+        var peakSnow_id = document.getElementById("snow-cell__value");
+        peakSnow_id.innerHTML = peak_snow
+
+        if (peakSnow_id.innerHTML > 0) {
+            peakSnow_id.classList.add("has-value")
+        }
+        else {
+            peakSnow_id.classList.remove("has-value")
+        }
+
+        if (peakRain_id.innerHTML > 0) {
+            peakRain_id.classList.add("has-value")
+        }
+        else {
+            peakRain_id.classList.remove("has-value")
+        }
+    
+        var peakSnowFill = document.getElementById("snow-cell__fill")
+
+        if (peakSnow_id.innerHTML < 5 && peakSnow_id.innerHTML > 0) {
+            peakSnowFill.style.height = "5px"
+        } 
+        else if (peakSnow_id.innerHTML > 5 && peakSnow_id.innerHTML < 10) {
+            peakSnowFill.style.height = "10px" 
+        }
+        else if (peakSnow_id.innerHTML > 10 && peakSnow_id.innerHTML < 15) {
+            peakSnowFill.style.height = "20px"
+        }
+        else if (peakSnow_id.innerHTML > 15 && peakSnow_id.innerHTML < 20) {
+            peakSnowFill.style.height = "30px"
+        }
+        else if (peakSnow_id.innerHTML > 20 && peakSnow_id.innerHTML < 25) {
+            peakSnowFill.style.height = "40px"
+        }
+        else if (peakSnow_id.innerHTML > 25) {
+            peakSnowFill.style.height = "45px"
+        } 
+        else {
+            peakSnowFill.style.height = "0px"
+        }
+
+        var peakRainFill = document.getElementById("rain-cell__fill")
+
+        if (peakRain_id.innerHTML <= 5 && peakRain_id.innerHTML > 0) {
+            peakRainFill.style.height = "5px"
+        } 
+        else if (peakRain_id.innerHTML > 5 && peakRain_id.innerHTML <= 10) {
+            peakRainFill.style.height = "10px" 
+        }
+        else if (peakRain_id.innerHTML > 10 && peakRain_id.innerHTML <= 15) {
+            peakRainFill.style.height = "20px"
+        }
+        else if (peakRain_id.innerHTML > 15 && peakRain_id.innerHTML <= 20) {
+            peakRainFill.style.height = "30px"
+        }
+        else if (peakRain_id.innerHTML > 20 && peakRain_id.innerHTML <= 25) {
+            peakRainFill.style.height = "40px"
+        }
+        else if (peakRain_id.innerHTML > 25) {
+            peakRainFill.style.height = "45px"
+        } 
+        else {
+            peakRainFill.style.height = "0px"
+        }
+      }
+
+      if (day2 == date) {
+        // console.log(curdate)
+
+        if (peak_snow == "0") {
+            peak_snow = "-"
+        } 
+        else {
+            peak_snow = peak_snow
+        }
+
+        if (peak_rain == "0") {
+            peak_rain = "-"
+        } 
+        else {
+            peak_rain = peak_rain
+        }
+
+        console.log(date,peak_max_tmp,peak_min_tmp,peak_feel_like,peak_wind_spd,peak_wind_gust,peak_w2,peak_w5,vlly_snow,peak_rain)
+        var valleyMaxDegreeTemp_id1 = document.getElementById("top-deg-cell__value2");
+        valleyMaxDegreeTemp_id1.innerHTML = peak_max_tmp
+
+        var valleyMinDegreeTemp_id1 = document.getElementById("min-deg-cell__value2");
+        valleyMinDegreeTemp_id1.innerHTML = peak_min_tmp
+
+        var valleyChillDegreeTemp_id1 = document.getElementById("chill-deg-cell1");
+        valleyChillDegreeTemp_id1.innerHTML = peak_feel_like
+
+        var valleySnow_id1 = document.getElementById("snow-cell__value1");
+        valleySnow_id1.innerHTML = peak_snow
+
+        var valleyRain_id1 = document.getElementById("rain-cell__value1");
+        valleyRain_id1.innerHTML = peak_rain
+
+        if (peak_w5 == "") {
+            var valleyWeather1 = document.getElementById("w2-ph");
+            valleyWeather1.innerHTML = peak_w2
+        }
+        else {
+            var valleyWeather1 = document.getElementById("w2-ph");
+            valleyWeather1.innerHTML = peak_w5
+        }
+
+        var valleyWindSpeed1 = document.getElementById("wind2");
+        valleyWindSpeed1.innerHTML = peak_wind_spd
+
+        var valleySnow_id1 = document.getElementById("snow-cell__value1");
+        valleySnow_id1.innerHTML = peak_snow
+
+        if (valleySnow_id1.innerHTML > 0) {
+            valleySnow_id1.classList.add("has-value")
+        }
+        else {
+            valleySnow_id1.classList.remove("has-value")
+        }
+
+        if (valleyRain_id1.innerHTML > 0) {
+            valleyRain_id1.classList.add("has-value")
+        }
+        else {
+            valleyRain_id1.classList.remove("has-value")
+        }
+
+        var valleySnowFill = document.getElementById("snow-cell__fill1")
+
+        if (valleySnow_id1.innerHTML <= 5 && valleySnow_id1.innerHTML > 0) {
+            valleySnowFill.style.height = "5px"
+        } 
+        else if (valleySnow_id1.innerHTML > 5 && valleySnow_id1.innerHTML <= 10) {
+            valleySnowFill.style.height = "10px" 
+        }
+        else if (valleySnow_id1.innerHTML > 10 && valleySnow_id1.innerHTML <= 15) {
+            valleySnowFill.style.height = "20px"
+        }
+        else if (valleySnow_id1.innerHTML > 15 && valleySnow_id1.innerHTML <= 20) {
+            valleySnowFill.style.height = "30px"
+        }
+        else if (valleySnow_id1.innerHTML > 20 && valleySnow_id1.innerHTML <= 25) {
+            valleySnowFill.style.height = "40px"
+        }
+        else if (valleySnow_id1.innerHTML > 25) {
+            valleySnowFill.style.height = "45px"
+        } 
+        else {
+            valleySnowFill.style.height = "0px"
+        }
+
+        var valleyRainFill = document.getElementById("rain-cell__fill1")
+
+        if (valleyRain_id1.innerHTML <= 5 && valleyRain_id1.innerHTML > 0) {
+            valleyRainFill.style.height = "5px"
+        } 
+        else if (valleyRain_id1.innerHTML > 5 && valleyRain_id1.innerHTML <= 10) {
+            valleyRainFill.style.height = "10px" 
+        }
+        else if (valleyRain_id1.innerHTML > 10 && valleyRain_id1.innerHTML <= 15) {
+            valleyRainFill.style.height = "20px"
+        }
+        else if (valleyRain_id1.innerHTML > 15 && valleyRain_id1.innerHTML <= 20) {
+            valleyRainFill.style.height = "30px"
+        }
+        else if (valleyRain_id1.innerHTML > 20 && valleyRain_id1.innerHTML <= 25) {
+            valleyRainFill.style.height = "40px"
+        }
+        else if (valleyRain_id1.innerHTML > 25) {
+            valleyRainFill.style.height = "45px"
+        } 
+        else {
+            valleyRainFill.style.height = "0px"
+        }
+      }
+      if (day3 == date) {
+
+        if (peak_snow == "0") {
+            peak_snow = "-"
+        } 
+        else {
+            peak_snow = peak_snow
+        }
+
+        if (peak_rain == "0") {
+            peak_rain = "-"
+        } 
+        else {
+            peak_rain = peak_rain
+        }
+        // console.log(curdate)
+        console.log(date,peak_max_tmp,vlly_min_tmp,peak_feel_like,peak_wind_spd,peak_wind_gust,peak_w2,peak_w5,peak_snow,peak_rain)
+        var valleyMaxDegreeTemp_id1 = document.getElementById("top-deg-cell__value3");
+        valleyMaxDegreeTemp_id1.innerHTML = peak_max_tmp
+
+        var valleyMinDegreeTemp_id1 = document.getElementById("min-deg-cell__value3");
+        valleyMinDegreeTemp_id1.innerHTML = peak_min_tmp
+
+        var valleyChillDegreeTemp_id1 = document.getElementById("chill-deg-cell2");
+        valleyChillDegreeTemp_id1.innerHTML = peak_feel_like
+
+        var valleySnow_id1 = document.getElementById("snow-cell__value2");
+        valleySnow_id1.innerHTML = peak_snow
+
+        var valleyRain_id1 = document.getElementById("rain-cell__value2");
+        valleyRain_id1.innerHTML = peak_rain
+
+        if (peak_w5 == "") {
+            var valleyWeather1 = document.getElementById("w3-ph");
+            valleyWeather1.innerHTML = peak_w2
+        }
+        else {
+            var valleyWeather1 = document.getElementById("w3-ph");
+            valleyWeather1.innerHTML = peak_w5
+        }
+
+        var valleyWindSpeed1 = document.getElementById("wind3");
+        valleyWindSpeed1.innerHTML = peak_wind_spd
+
+        var valleySnow_id1 = document.getElementById("snow-cell__value2");
+        valleySnow_id1.innerHTML = peak_snow
+
+        if (valleySnow_id1.innerHTML > 0) {
+            valleySnow_id1.classList.add("has-value")
+        }
+        else {
+            valleySnow_id1.classList.remove("has-value")
+        }
+
+        if (valleyRain_id1.innerHTML > 0) {
+            valleyRain_id1.classList.add("has-value")
+        }
+        else {
+            valleyRain_id1.classList.remove("has-value")
+        }
+
+        var valleySnowFill = document.getElementById("snow-cell__fill2")
+
+        if (valleySnow_id1.innerHTML <= 5 && valleySnow_id1.innerHTML > 0) {
+            valleySnowFill.style.height = "5px"
+        } 
+        else if (valleySnow_id1.innerHTML > 5 && valleySnow_id1.innerHTML <= 10) {
+            valleySnowFill.style.height = "10px" 
+        }
+        else if (valleySnow_id1.innerHTML > 10 && valleySnow_id1.innerHTML <= 15) {
+            valleySnowFill.style.height = "20px"
+        }
+        else if (valleySnow_id1.innerHTML > 15 && valleySnow_id1.innerHTML <= 20) {
+            valleySnowFill.style.height = "30px"
+        }
+        else if (valleySnow_id1.innerHTML > 20 && valleySnow_id1.innerHTML <= 25) {
+            valleySnowFill.style.height = "40px"
+        }
+        else if (valleySnow_id1.innerHTML > 25) {
+            valleySnowFill.style.height = "45px"
+        } 
+        else {
+            valleySnowFill.style.height = "0px"
+        }
+
+        var peakRainFill = document.getElementById("rain-cell__fill2")
+
+        if (valleyRain_id1.innerHTML <= 5 && valleyRain_id1.innerHTML > 0) {
+            peakRainFill.style.height = "5px"
+        } 
+        else if (valleyRain_id1.innerHTML > 5 && valleyRain_id1.innerHTML <= 10) {
+            peakRainFill.style.height = "10px" 
+        }
+        else if (valleyRain_id1.innerHTML > 10 && valleyRain_id1.innerHTML <= 15) {
+            peakRainFill.style.height = "20px"
+        }
+        else if (valleyRain_id1.innerHTML > 15 && valleyRain_id1.innerHTML <= 20) {
+            peakRainFill.style.height = "30px"
+        }
+        else if (valleyRain_id1.innerHTML > 20 && valleyRain_id1.innerHTML <= 25) {
+            peakRainFill.style.height = "40px"
+        }
+        else if (valleyRain_id1.innerHTML > 25) {
+            peakRainFill.style.height = "45px"
+        } 
+        else {
+            peakRainFill.style.height = "0px"
+        }
+      }
+      if (day4 == date) {
+
+        if (peak_snow == "0") {
+            peak_snow = "-"
+        } 
+        else {
+            peak_snow = peak_snow
+        }
+
+        if (peak_rain == "0") {
+            peak_rain = "-"
+        } 
+        else {
+            peak_rain = peak_rain
+        }
+        // console.log(curdate)
+        console.log(date,peak_max_tmp,peak_min_tmp,peak_feel_like,peak_wind_spd,peak_wind_gust,peak_w2,peak_w5,peak_snow,peak_rain)
+        var valleyMaxDegreeTemp_id1 = document.getElementById("top-deg-cell__value4");
+        valleyMaxDegreeTemp_id1.innerHTML = peak_max_tmp
+
+        var valleyMinDegreeTemp_id1 = document.getElementById("min-deg-cell__value4");
+        valleyMinDegreeTemp_id1.innerHTML = peak_min_tmp
+
+        var valleyChillDegreeTemp_id1 = document.getElementById("chill-deg-cell3");
+        valleyChillDegreeTemp_id1.innerHTML = peak_feel_like
+
+        var valleySnow_id1 = document.getElementById("snow-cell__value3");
+        valleySnow_id1.innerHTML = peak_snow
+
+        var valleyRain_id1 = document.getElementById("rain-cell__value3");
+        valleyRain_id1.innerHTML = peak_rain
+
+        if (peak_w5 == "") {
+            var valleyWeather1 = document.getElementById("w4-ph");
+            valleyWeather1.innerHTML = peak_w2
+        }
+        else {
+            var valleyWeather1 = document.getElementById("w4-ph");
+            valleyWeather1.innerHTML = peak_w5
+        }
+
+        var valleyWindSpeed1 = document.getElementById("wind4");
+        valleyWindSpeed1.innerHTML = peak_wind_spd
+
+        var valleySnow_id1 = document.getElementById("snow-cell__value3");
+        valleySnow_id1.innerHTML = peak_snow
+
+        if (valleySnow_id1.innerHTML > 0) {
+            valleySnow_id1.classList.add("has-value")
+        }
+        else {
+            valleySnow_id1.classList.remove("has-value")
+        }
+
+        if (valleyRain_id1.innerHTML > 0) {
+            valleyRain_id1.classList.add("has-value")
+        }
+        else {
+            valleyRain_id1.classList.remove("has-value")
+        }
+
+        var valleySnowFill = document.getElementById("snow-cell__fill3")
+
+        if (valleySnow_id1.innerHTML <= 5 && valleySnow_id1.innerHTML > 0) {
+            valleySnowFill.style.height = "5px"
+        } 
+        else if (valleySnow_id1.innerHTML > 5 && valleySnow_id1.innerHTML <= 10) {
+            valleySnowFill.style.height = "10px" 
+        }
+        else if (valleySnow_id1.innerHTML > 10 && valleySnow_id1.innerHTML <= 15) {
+            valleySnowFill.style.height = "20px"
+        }
+        else if (valleySnow_id1.innerHTML > 15 && valleySnow_id1.innerHTML <= 20) {
+            valleySnowFill.style.height = "30px"
+        }
+        else if (valleySnow_id1.innerHTML > 20 && valleySnow_id1.innerHTML <= 25) {
+            valleySnowFill.style.height = "40px"
+        }
+        else if (valleySnow_id1.innerHTML > 25) {
+            valleySnowFill.style.height = "45px"
+        } 
+        else {
+            valleySnowFill.style.height = "0px"
+        }
+
+        var peakRainFill = document.getElementById("rain-cell__fill3")
+
+        if (valleyRain_id1.innerHTML <= 5 && valleyRain_id1.innerHTML > 0) {
+            peakRainFill.style.height = "5px"
+        } 
+        else if (valleyRain_id1.innerHTML > 5 && valleyRain_id1.innerHTML <= 10) {
+            peakRainFill.style.height = "10px" 
+        }
+        else if (valleyRain_id1.innerHTML > 10 && valleyRain_id1.innerHTML <= 15) {
+            peakRainFill.style.height = "20px"
+        }
+        else if (valleyRain_id1.innerHTML > 15 && valleyRain_id1.innerHTML <= 20) {
+            peakRainFill.style.height = "30px"
+        }
+        else if (valleyRain_id1.innerHTML > 20 && valleyRain_id1.innerHTML <= 25) {
+            peakRainFill.style.height = "40px"
+        }
+        else if (valleyRain_id1.innerHTML > 25) {
+            peakRainFill.style.height = "45px"
+        } 
+        else {
+            peakRainFill.style.height = "0px"
+        }
+      }
+      if (day5 == date) {
+
+        if (peak_snow == "0") {
+            peak_snow = "-"
+        } 
+        else {
+            peak_snow = peak_snow
+        }
+
+        if (peak_rain == "0") {
+            peak_rain = "-"
+        } 
+        else {
+            peak_rain = peak_rain
+        }
+        // console.log(curdate)
+        console.log(date,peak_max_tmp,peak_min_tmp,peak_feel_like,peak_wind_spd,peak_wind_gust,peak_w2,peak_w5,peak_snow,peak_rain)
+        var valleyMaxDegreeTemp_id1 = document.getElementById("top-deg-cell__value5");
+        valleyMaxDegreeTemp_id1.innerHTML = peak_max_tmp
+
+        var valleyMinDegreeTemp_id1 = document.getElementById("min-deg-cell__value5");
+        valleyMinDegreeTemp_id1.innerHTML = peak_min_tmp
+
+        var valleyChillDegreeTemp_id1 = document.getElementById("chill-deg-cell4");
+        valleyChillDegreeTemp_id1.innerHTML = peak_feel_like
+
+        var valleySnow_id1 = document.getElementById("snow-cell__value4");
+        valleySnow_id1.innerHTML = peak_snow
+
+        var valleyRain_id1 = document.getElementById("rain-cell__value4");
+        valleyRain_id1.innerHTML = peak_rain
+
+        if (peak_w5 == "") {
+            var valleyWeather1 = document.getElementById("w5-ph");
+            valleyWeather1.innerHTML = peak_w2
+        }
+        else {
+            var valleyWeather1 = document.getElementById("w5-ph");
+            valleyWeather1.innerHTML = peak_w5
+        }
+
+        var valleyWindSpeed1 = document.getElementById("wind5");
+        valleyWindSpeed1.innerHTML = peak_wind_spd
+
+        var valleySnow_id1 = document.getElementById("snow-cell__value4");
+        valleySnow_id1.innerHTML = peak_snow
+
+        if (valleySnow_id1.innerHTML > 0) {
+            valleySnow_id1.classList.add("has-value")
+        }
+        else {
+            valleySnow_id1.classList.remove("has-value")
+        }
+
+        if (valleyRain_id1.innerHTML > 0) {
+            valleyRain_id1.classList.add("has-value")
+        }
+        else {
+            valleyRain_id1.classList.remove("has-value")
+        }
+
+        var valleySnowFill = document.getElementById("snow-cell__fill4")
+
+        if (valleySnow_id1.innerHTML <= 5 && valleySnow_id1.innerHTML > 0) {
+            valleySnowFill.style.height = "5px"
+        } 
+        else if (valleySnow_id1.innerHTML > 5 && valleySnow_id1.innerHTML <= 10) {
+            valleySnowFill.style.height = "10px" 
+        }
+        else if (valleySnow_id1.innerHTML > 10 && valleySnow_id1.innerHTML <= 15) {
+            valleySnowFill.style.height = "20px"
+        }
+        else if (valleySnow_id1.innerHTML > 15 && valleySnow_id1.innerHTML <= 20) {
+            valleySnowFill.style.height = "30px"
+        }
+        else if (valleySnow_id1.innerHTML > 20 && valleySnow_id1.innerHTML <= 25) {
+            valleySnowFill.style.height = "40px"
+        }
+        else if (valleySnow_id1.innerHTML > 25) {
+            valleySnowFill.style.height = "45px"
+        } 
+        else {
+            valleySnowFill.style.height = "0px"
+        }
+
+        var peakRainFill = document.getElementById("rain-cell__fill4")
+
+        if (valleyRain_id1.innerHTML <= 5 && valleyRain_id1.innerHTML > 0) {
+            peakRainFill.style.height = "5px"
+        } 
+        else if (valleyRain_id1.innerHTML > 5 && valleyRain_id1.innerHTML <= 10) {
+            peakRainFill.style.height = "10px" 
+        }
+        else if (valleyRain_id1.innerHTML > 10 && valleyRain_id1.innerHTML <= 15) {
+            peakRainFill.style.height = "20px"
+        }
+        else if (valleyRain_id1.innerHTML > 15 && valleyRain_id1.innerHTML <= 20) {
+            peakRainFill.style.height = "30px"
+        }
+        else if (valleyRain_id1.innerHTML > 20 && valleyRain_id1.innerHTML <= 25) {
+            peakRainFill.style.height = "40px"
+        }
+        else if (valleyRain_id1.innerHTML > 25) {
+            peakRainFill.style.height = "45px"
+        } 
+        else {
+            peakRainFill.style.height = "0px"
+        }
+      }
+      if (day6 == date) {
+
+        if (peak_snow == "0") {
+            peak_snow = "-"
+        } 
+        else {
+            peak_snow = peak_snow
+        }
+
+        if (peak_rain == "0") {
+            peak_rain = "-"
+        } 
+        else {
+            peak_rain = peak_rain
+        }
+        // console.log(curdate)
+        console.log(date,peak_max_tmp,peak_min_tmp,peak_feel_like,peak_wind_spd,peak_wind_gust,peak_w2,peak_w5,peak_snow,peak_rain)
+        var valleyMaxDegreeTemp_id1 = document.getElementById("top-deg-cell__value6");
+        valleyMaxDegreeTemp_id1.innerHTML = peak_max_tmp
+
+        var valleyMinDegreeTemp_id1 = document.getElementById("min-deg-cell__value6");
+        valleyMinDegreeTemp_id1.innerHTML = peak_min_tmp
+
+        var valleyChillDegreeTemp_id1 = document.getElementById("chill-deg-cell5");
+        valleyChillDegreeTemp_id1.innerHTML = peak_feel_like
+
+        var valleySnow_id1 = document.getElementById("snow-cell__value5");
+        valleySnow_id1.innerHTML = peak_snow
+
+        var valleyRain_id1 = document.getElementById("rain-cell__value5");
+        valleyRain_id1.innerHTML = peak_rain
+
+        if (peak_w5 == "") {
+            var valleyWeather1 = document.getElementById("w6-ph");
+            valleyWeather1.innerHTML = peak_w2
+        }
+        else {
+            var valleyWeather1 = document.getElementById("w6-ph");
+            valleyWeather1.innerHTML = peak_w5
+        }
+
+        var valleyWindSpeed1 = document.getElementById("wind6");
+        valleyWindSpeed1.innerHTML = peak_wind_spd
+
+        var valleySnow_id1 = document.getElementById("snow-cell__value5");
+        valleySnow_id1.innerHTML = peak_snow
+
+        if (valleySnow_id1.innerHTML > 0) {
+            valleySnow_id1.classList.add("has-value")
+        }
+        else {
+            valleySnow_id1.classList.remove("has-value")
+        }
+
+        if (valleyRain_id1.innerHTML > 0) {
+            valleyRain_id1.classList.add("has-value")
+        }
+        else {
+            valleyRain_id1.classList.remove("has-value")
+        }
+
+        var valleySnowFill = document.getElementById("snow-cell__fill5")
+
+        if (valleySnow_id1.innerHTML <= 5 && valleySnow_id1.innerHTML > 0) {
+            valleySnowFill.style.height = "5px"
+        } 
+        else if (valleySnow_id1.innerHTML > 5 && valleySnow_id1.innerHTML <= 10) {
+            valleySnowFill.style.height = "10px" 
+        }
+        else if (valleySnow_id1.innerHTML > 10 && valleySnow_id1.innerHTML <= 15) {
+            valleySnowFill.style.height = "20px"
+        }
+        else if (valleySnow_id1.innerHTML > 15 && valleySnow_id1.innerHTML <= 20) {
+            valleySnowFill.style.height = "30px"
+        }
+        else if (valleySnow_id1.innerHTML > 20 && valleySnow_id1.innerHTML <= 25) {
+            valleySnowFill.style.height = "40px"
+        }
+        else if (valleySnow_id1.innerHTML > 25) {
+            valleySnowFill.style.height = "45px"
+        } 
+        else {
+            valleySnowFill.style.height = "0px"
+        }
+
+        var peakRainFill = document.getElementById("rain-cell__fill5")
+
+        if (valleyRain_id1.innerHTML <= 5 && valleyRain_id1.innerHTML > 0) {
+            peakRainFill.style.height = "5px"
+        } 
+        else if (valleyRain_id1.innerHTML > 5 && valleyRain_id1.innerHTML <=10) {
+            peakRainFill.style.height = "10px" 
+        }
+        else if (valleyRain_id1.innerHTML > 10 && valleyRain_id1.innerHTML <= 15) {
+            peakRainFill.style.height = "20px"
+        }
+        else if (valleyRain_id1.innerHTML > 15 && valleyRain_id1.innerHTML <= 20) {
+            peakRainFill.style.height = "30px"
+        }
+        else if (valleyRain_id1.innerHTML > 20 && valleyRain_id1.innerHTML <= 25) {
+            peakRainFill.style.height = "40px"
+        }
+        else if (valleyRain_id1.innerHTML > 25) {
+            peakRainFill.style.height = "45px"
+        } 
+        else {
+            peakRainFill.style.height = "0px"
+        }      
+      }
+      if (day7 == date) {
+
+        if (peak_snow == "0") {
+            peak_snow = "-"
+        } 
+        else {
+            peak_snow = peak_snow
+        }
+
+        if (peak_rain == "0") {
+            peak_rain = "-"
+        } 
+        else {
+            peak_rain = peak_rain
+        }
+        // console.log(curdate)
+        console.log(date,peak_max_tmp,peak_min_tmp,peak_feel_like,peak_wind_spd,peak_wind_gust,peak_w2,peak_w5,peak_snow,peak_rain)
+        var valleyMaxDegreeTemp_id1 = document.getElementById("top-deg-cell__value7");
+        valleyMaxDegreeTemp_id1.innerHTML = peak_max_tmp
+
+        var valleyMinDegreeTemp_id1 = document.getElementById("min-deg-cell__value7");
+        valleyMinDegreeTemp_id1.innerHTML = peak_min_tmp
+
+        var valleyChillDegreeTemp_id1 = document.getElementById("chill-deg-cell6");
+        valleyChillDegreeTemp_id1.innerHTML = peak_feel_like
+
+        var valleySnow_id1 = document.getElementById("snow-cell__value6");
+        valleySnow_id1.innerHTML = peak_snow
+
+        var valleyRain_id1 = document.getElementById("rain-cell__value6");
+        valleyRain_id1.innerHTML = peak_rain
+
+        if (peak_w5 == "") {
+            var valleyWeather1 = document.getElementById("w7-ph");
+            valleyWeather1.innerHTML = peak_w2
+        }
+        else {
+            var valleyWeather1 = document.getElementById("w7-ph");
+            valleyWeather1.innerHTML = peak_w5
+        }
+
+        var valleyWindSpeed1 = document.getElementById("wind7");
+        valleyWindSpeed1.innerHTML = peak_wind_spd
+
+        var valleySnow_id1 = document.getElementById("snow-cell__value6");
+        valleySnow_id1.innerHTML = peak_snow
+
+        if (valleySnow_id1.innerHTML > 0) {
+            valleySnow_id1.classList.add("has-value")
+        }
+        else {
+            valleySnow_id1.classList.remove("has-value")
+        }
+
+        if (valleyRain_id1.innerHTML > 0) {
+            valleyRain_id1.classList.add("has-value")
+        }
+        else {
+            valleyRain_id1.classList.remove("has-value")
+        }
+
+        var valleySnowFill = document.getElementById("snow-cell__fill6")
+
+        if (valleySnow_id1.innerHTML <= 5 && valleySnow_id1.innerHTML > 0) {
+            valleySnowFill.style.height = "5px"
+        } 
+        else if (valleySnow_id1.innerHTML > 5 && valleySnow_id1.innerHTML <= 10) {
+            valleySnowFill.style.height = "10px" 
+        }
+        else if (valleySnow_id1.innerHTML > 10 && valleySnow_id1.innerHTML <= 15) {
+            valleySnowFill.style.height = "20px"
+        }
+        else if (valleySnow_id1.innerHTML > 15 && valleySnow_id1.innerHTML <= 20) {
+            valleySnowFill.style.height = "30px"
+        }
+        else if (valleySnow_id1.innerHTML > 20 && valleySnow_id1.innerHTML <= 25) {
+            valleySnowFill.style.height = "40px"
+        }
+        else if (valleySnow_id1.innerHTML > 25) {
+            valleySnowFill.style.height = "45px"
+        } 
+        else {
+            valleySnowFill.style.height = "0px"
+        }
+
+        var peakRainFill = document.getElementById("rain-cell__fill6")
+
+        if (valleyRain_id1.innerHTML < 5 && valleyRain_id1.innerHTML > 0) {
+            peakRainFill.style.height = "5px"
+        } 
+        else if (valleyRain_id1.innerHTML > 5 && valleyRain_id1.innerHTML < 10) {
+            peakRainFill.style.height = "10px" 
+        }
+        else if (valleyRain_id1.innerHTML > 10 && valleyRain_id1.innerHTML < 15) {
+            peakRainFill.style.height = "20px"
+        }
+        else if (valleyRain_id1.innerHTML > 15 && valleyRain_id1.innerHTML < 20) {
+            peakRainFill.style.height = "30px"
+        }
+        else if (valleyRain_id1.innerHTML > 20 && valleyRain_id1.innerHTML < 25) {
+            peakRainFill.style.height = "40px"
+        }
+        else if (valleyRain_id1.innerHTML > 25) {
+            peakRainFill.style.height = "45px"
+        } 
+        else {
+            peakRainFill.style.height = "0px"
+        }
+      }
+      // if (vy_snow_dph > 1 && date == tomorrow) {
+      //   console.log(vy_snow_dph)
+      // }
+  });
+
+        const topDegree = document.getElementById("top-deg-cell"); 
+        const topDegree1 = document.getElementById("top-deg-cell1"); 
+        const topDegree2 = document.getElementById("top-deg-cell2"); 
+        const topDegree3 = document.getElementById("top-deg-cell3"); 
+        const topDegree4 = document.getElementById("top-deg-cell4"); 
+        const topDegree5 = document.getElementById("top-deg-cell5"); 
+        const topDegree6 = document.getElementById("top-deg-cell6"); 
+
+        const botDegree = document.getElementById("min-deg-cell"); 
+        const botDegree1 = document.getElementById("min-deg-cell1"); 
+        const botDegree2 = document.getElementById("min-deg-cell2"); 
+        const botDegree3 = document.getElementById("min-deg-cell3"); 
+        const botDegree4 = document.getElementById("min-deg-cell4"); 
+        const botDegree5 = document.getElementById("min-deg-cell5"); 
+        const botDegree6 = document.getElementById("min-deg-cell6"); 
+
+        const chillDegree = document.getElementById("chill-deg-cell"); 
+        const chillDegree1 = document.getElementById("chill-deg-cell1"); 
+        const chillDegree2 = document.getElementById("chill-deg-cell2"); 
+        const chillDegree3 = document.getElementById("chill-deg-cell3"); 
+        const chillDegree4 = document.getElementById("chill-deg-cell4"); 
+        const chillDegree5 = document.getElementById("chill-deg-cell5"); 
+        const chillDegree6 = document.getElementById("chill-deg-cell6"); 
+        function load() {
+            const topDegreeTemp = document.getElementById("top-deg-cell__value1").innerHTML;
+            const topDegreeTemp1 = document.getElementById("top-deg-cell__value2").innerHTML;
+            const topDegreeTemp2 = document.getElementById("top-deg-cell__value3").innerHTML;
+            const topDegreeTemp3 = document.getElementById("top-deg-cell__value4").innerHTML;
+            const topDegreeTemp4 = document.getElementById("top-deg-cell__value5").innerHTML;
+            const topDegreeTemp5 = document.getElementById("top-deg-cell__value6").innerHTML;
+            const topDegreeTemp6 = document.getElementById("top-deg-cell__value7").innerHTML;
+
+
+            if(topDegreeTemp >= 10){topDegree.setAttribute("data-temp","sub-20");}
+            else if(topDegreeTemp < -15) {topDegree.setAttribute("data-temp","sub--15")}
+            else if(topDegreeTemp < -10) {topDegree.setAttribute("data-temp","sub--10")}
+            else if(topDegreeTemp < -5) {topDegree.setAttribute("data-temp","sub--5")}
+            else if(topDegreeTemp < 0) {topDegree.setAttribute("data-temp","sub-zero")}
+            else if(topDegreeTemp < 5) {topDegree.setAttribute("data-temp","sub-5")}
+            else {topDegree.setAttribute("data-temp","sub-10")}
+
+            
+            if(topDegreeTemp1 >= 10){topDegree1.setAttribute("data-temp","sub-20");}
+            else if(topDegreeTemp1 < -15) {topDegree1.setAttribute("data-temp","sub--15")}
+            else if(topDegreeTemp1 < -10) {topDegree1.setAttribute("data-temp","sub--10")}
+            else if(topDegreeTemp1 < -5) {topDegree1.setAttribute("data-temp","sub--5")}
+            else if(topDegreeTemp1 < 0) {topDegree1.setAttribute("data-temp","sub-zero")}
+            else if(topDegreeTemp1 < 5) {topDegree1.setAttribute("data-temp","sub-5")}
+            else {topDegree1.setAttribute("data-temp","sub-10")}
+
+
+            if(topDegreeTemp2 >= 10){topDegree2.setAttribute("data-temp","sub-20");}
+            else if(topDegreeTemp2 < -15) {topDegree2.setAttribute("data-temp","sub--15")}
+            else if(topDegreeTemp2 < -10) {topDegree2.setAttribute("data-temp","sub--10")}
+            else if(topDegreeTemp2 < -5) {topDegree2.setAttribute("data-temp","sub--5")}
+            else if(topDegreeTemp2 < 0) {topDegree2.setAttribute("data-temp","sub-zero")}
+            else if(topDegreeTemp2 < 5) {topDegree2.setAttribute("data-temp","sub-5")}
+            else {topDegree2.setAttribute("data-temp","sub-10")}
+
+
+            if(topDegreeTemp3 >= 10){topDegree3.setAttribute("data-temp","sub-20");}
+            else if(topDegreeTemp3 < -15) {topDegree3.setAttribute("data-temp","sub--15")}
+            else if(topDegreeTemp3 < -10) {topDegree3.setAttribute("data-temp","sub--10")}
+            else if(topDegreeTemp3 < -5) {topDegree3.setAttribute("data-temp","sub--5")}
+            else if(topDegreeTemp3 < 0) {topDegree3.setAttribute("data-temp","sub-zero")}
+            else if(topDegreeTemp3 < 5) {topDegree3.setAttribute("data-temp","sub-5")}
+            else {topDegree3.setAttribute("data-temp","sub-10")}
+
+
+            if(topDegreeTemp4 >= 10){topDegree4.setAttribute("data-temp","sub-20");}
+            else if(topDegreeTemp4 < -15) {topDegree4.setAttribute("data-temp","sub--15")}
+            else if(topDegreeTemp4 < -10) {topDegree4.setAttribute("data-temp","sub--10")}
+            else if(topDegreeTemp4 < -5) {topDegree4.setAttribute("data-temp","sub--5")}
+            else if(topDegreeTemp4 < 0) {topDegree4.setAttribute("data-temp","sub-zero")}
+            else if(topDegreeTemp4 < 5) {topDegree4.setAttribute("data-temp","sub-5")}
+            else {topDegree4.setAttribute("data-temp","sub-10")}
+
+
+            if(topDegreeTemp5 >= 10){topDegree5.setAttribute("data-temp","sub-20");}
+            else if(topDegreeTemp5 < -15) {topDegree5.setAttribute("data-temp","sub--15")}
+            else if(topDegreeTemp5 < -10) {topDegree5.setAttribute("data-temp","sub--10")}
+            else if(topDegreeTemp5 < -5) {topDegree5.setAttribute("data-temp","sub--5")}
+            else if(topDegreeTemp5 < 0) {topDegree5.setAttribute("data-temp","sub-zero")}
+            else if(topDegreeTemp5 < 5) {topDegree5.setAttribute("data-temp","sub-5")}
+            else {topDegree5.setAttribute("data-temp","sub-10")}
+
+
+            if(topDegreeTemp6 >= 10){topDegree6.setAttribute("data-temp","sub-20");}
+            else if(topDegreeTemp6 < -15) {topDegree6.setAttribute("data-temp","sub--15")}
+            else if(topDegreeTemp6 < -10) {topDegree6.setAttribute("data-temp","sub--10")}
+            else if(topDegreeTemp6 < -5) {topDegree6.setAttribute("data-temp","sub--5")}
+            else if(topDegreeTemp6 < 0) {topDegree6.setAttribute("data-temp","sub-zero")}
+            else if(topDegreeTemp6 < 5) {topDegree6.setAttribute("data-temp","sub-5")}
+            else {topDegree6.setAttribute("data-temp","sub-10")}
+
+
+            const botDegreeTemp = document.getElementById("min-deg-cell__value1").innerHTML;
+            const botDegreeTemp1 = document.getElementById("min-deg-cell__value2").innerHTML;
+            const botDegreeTemp2 = document.getElementById("min-deg-cell__value3").innerHTML;
+            const botDegreeTemp3 = document.getElementById("min-deg-cell__value4").innerHTML;
+            const botDegreeTemp4 = document.getElementById("min-deg-cell__value5").innerHTML;
+            const botDegreeTemp5 = document.getElementById("min-deg-cell__value6").innerHTML;
+            const botDegreeTemp6 = document.getElementById("min-deg-cell__value7").innerHTML;
+
+
+            if(botDegreeTemp >= 10){botDegree.setAttribute("data-temp","sub-20");}
+            else if(botDegreeTemp < -15) {botDegree.setAttribute("data-temp","sub--15")}
+            else if(botDegreeTemp < -10) {botDegree.setAttribute("data-temp","sub--10")}
+            else if(botDegreeTemp < -5) {botDegree.setAttribute("data-temp","sub--5")}
+            else if(botDegreeTemp < 0) {botDegree.setAttribute("data-temp","sub-zero")}
+            else if(botDegreeTemp < 5) {botDegree.setAttribute("data-temp","sub-5")}
+            else {botDegree.setAttribute("data-temp","sub-10")}
+
+            
+            if(botDegreeTemp1 >= 10){botDegree1.setAttribute("data-temp","sub-20");}
+            else if(botDegreeTemp1 < -15) {botDegree1.setAttribute("data-temp","sub--15")}
+            else if(botDegreeTemp1 < -10) {botDegree1.setAttribute("data-temp","sub--10")}
+            else if(botDegreeTemp1 < -5) {botDegree1.setAttribute("data-temp","sub--5")}
+            else if(botDegreeTemp1 < 0) {botDegree1.setAttribute("data-temp","sub-zero")}
+            else if(botDegreeTemp1 < 5) {botDegree1.setAttribute("data-temp","sub-5")}
+            else {botDegree1.setAttribute("data-temp","sub-10")}
+
+
+            if(botDegreeTemp2 >= 10){botDegree2.setAttribute("data-temp","sub-20");}
+            else if(botDegreeTemp2 < -15) {botDegree2.setAttribute("data-temp","sub--15")}
+            else if(botDegreeTemp2 < -10) {botDegree2.setAttribute("data-temp","sub--10")}
+            else if(botDegreeTemp2 < -5) {botDegree2.setAttribute("data-temp","sub--5")}
+            else if(botDegreeTemp2 < 0) {botDegree2.setAttribute("data-temp","sub-zero")}
+            else if(botDegreeTemp2 < 5) {botDegree2.setAttribute("data-temp","sub-5")}
+            else {botDegree2.setAttribute("data-temp","sub-10")}
+
+
+            if(botDegreeTemp3 >= 10){botDegree3.setAttribute("data-temp","sub-20");}
+            else if(botDegreeTemp3 < -15) {botDegree3.setAttribute("data-temp","sub--15")}
+            else if(botDegreeTemp3 < -10) {botDegree3.setAttribute("data-temp","sub--10")}
+            else if(botDegreeTemp3 < -5) {botDegree3.setAttribute("data-temp","sub--5")}
+            else if(botDegreeTemp3 < 0) {botDegree3.setAttribute("data-temp","sub-zero")}
+            else if(botDegreeTemp3 < 5) {botDegree3.setAttribute("data-temp","sub-5")}
+            else {botDegree3.setAttribute("data-temp","sub-10")}
+
+
+            if(botDegreeTemp4 >= 10){botDegree4.setAttribute("data-temp","sub-20");}
+            else if(botDegreeTemp4 < -15) {botDegree4.setAttribute("data-temp","sub--15")}
+            else if(botDegreeTemp4 < -10) {botDegree4.setAttribute("data-temp","sub--10")}
+            else if(botDegreeTemp4 < -5) {botDegree4.setAttribute("data-temp","sub--5")}
+            else if(botDegreeTemp4 < 0) {botDegree4.setAttribute("data-temp","sub-zero")}
+            else if(botDegreeTemp4 < 5) {botDegree4.setAttribute("data-temp","sub-5")}
+            else {botDegree4.setAttribute("data-temp","sub-10")}
+
+
+            if(botDegreeTemp5 >= 10){botDegree5.setAttribute("data-temp","sub-20");}
+            else if(botDegreeTemp5 < -15) {botDegree5.setAttribute("data-temp","sub--15")}
+            else if(botDegreeTemp5 < -10) {botDegree5.setAttribute("data-temp","sub--10")}
+            else if(botDegreeTemp5 < -5) {botDegree5.setAttribute("data-temp","sub--5")}
+            else if(botDegreeTemp5 < 0) {botDegree5.setAttribute("data-temp","sub-zero")}
+            else if(botDegreeTemp5 < 5) {botDegree5.setAttribute("data-temp","sub-5")}
+            else {botDegree5.setAttribute("data-temp","sub-10")}
+
+
+            if(botDegreeTemp6 >= 10){botDegree6.setAttribute("data-temp","sub-20");}
+            else if(botDegreeTemp6 < -15) {botDegree6.setAttribute("data-temp","sub--15")}
+            else if(botDegreeTemp6 < -10) {botDegree6.setAttribute("data-temp","sub--10")}
+            else if(botDegreeTemp6 < -5) {botDegree6.setAttribute("data-temp","sub--5")}
+            else if(botDegreeTemp6 < 0) {botDegree6.setAttribute("data-temp","sub-zero")}
+            else if(botDegreeTemp6 < 5) {botDegree6.setAttribute("data-temp","sub-5")}
+            else {botDegree6.setAttribute("data-temp","sub-10")}
+
+            const chillDegreeTemp = document.getElementById("chill-deg-cell").innerHTML;
+            const chillDegreeTemp1 = document.getElementById("chill-deg-cell1").innerHTML;
+            const chillDegreeTemp2 = document.getElementById("chill-deg-cell2").innerHTML;
+            const chillDegreeTemp3 = document.getElementById("chill-deg-cell3").innerHTML;
+            const chillDegreeTemp4 = document.getElementById("chill-deg-cell4").innerHTML;
+            const chillDegreeTemp5 = document.getElementById("chill-deg-cell5").innerHTML;
+            const chillDegreeTemp6 = document.getElementById("chill-deg-cell6").innerHTML;
+
+
+            if(chillDegreeTemp >= 10){chillDegree.setAttribute("data-temp","sub-20");}
+            else if(chillDegreeTemp < -15) {chillDegree.setAttribute("data-temp","sub--15")}
+            else if(chillDegreeTemp < -10) {chillDegree.setAttribute("data-temp","sub--10")}
+            else if(chillDegreeTemp < -5) {chillDegree.setAttribute("data-temp","sub--5")}
+            else if(chillDegreeTemp < 0) {chillDegree.setAttribute("data-temp","sub-zero")}
+            else if(chillDegreeTemp < 5) {chillDegree.setAttribute("data-temp","sub-5")}
+            else {chillDegree.setAttribute("data-temp","sub-10")}
+
+            
+            if(chillDegreeTemp1 >= 10){chillDegree1.setAttribute("data-temp","sub-20");}
+            else if(chillDegreeTemp1 < -15) {chillDegree1.setAttribute("data-temp","sub--15")}
+            else if(chillDegreeTemp1 < -10) {chillDegree1.setAttribute("data-temp","sub--10")}
+            else if(chillDegreeTemp1 < -5) {chillDegree1.setAttribute("data-temp","sub--5")}
+            else if(chillDegreeTemp1 < 0) {chillDegree1.setAttribute("data-temp","sub-zero")}
+            else if(chillDegreeTemp1 < 5) {chillDegree1.setAttribute("data-temp","sub-5")}
+            else {chillDegree1.setAttribute("data-temp","sub-10")}
+
+
+            if(chillDegreeTemp2 >= 10){chillDegree2.setAttribute("data-temp","sub-20");}
+            else if(chillDegreeTemp2 < -15) {chillDegree2.setAttribute("data-temp","sub--15")}
+            else if(chillDegreeTemp2 < -10) {chillDegree2.setAttribute("data-temp","sub--10")}
+            else if(chillDegreeTemp2 < -5) {chillDegree2.setAttribute("data-temp","sub--5")}
+            else if(chillDegreeTemp2 < 0) {chillDegree2.setAttribute("data-temp","sub-zero")}
+            else if(chillDegreeTemp2 < 5) {chillDegree2.setAttribute("data-temp","sub-5")}
+            else {chillDegree2.setAttribute("data-temp","sub-10")}
+
+
+            if(chillDegreeTemp3 >= 10){chillDegree3.setAttribute("data-temp","sub-20");}
+            else if(chillDegreeTemp3 < -15) {chillDegree3.setAttribute("data-temp","sub--15")}
+            else if(chillDegreeTemp3 < -10) {chillDegree3.setAttribute("data-temp","sub--10")}
+            else if(chillDegreeTemp3 < -5) {chillDegree3.setAttribute("data-temp","sub--5")}
+            else if(chillDegreeTemp3 < 0) {chillDegree3.setAttribute("data-temp","sub-zero")}
+            else if(chillDegreeTemp3 < 5) {chillDegree3.setAttribute("data-temp","sub-5")}
+            else {chillDegree3.setAttribute("data-temp","sub-10")}
+
+
+            if(chillDegreeTemp4 >= 10){chillDegree4.setAttribute("data-temp","sub-20");}
+            else if(chillDegreeTemp4 < -15) {chillDegree4.setAttribute("data-temp","sub--15")}
+            else if(chillDegreeTemp4 < -10) {chillDegree4.setAttribute("data-temp","sub--10")}
+            else if(chillDegreeTemp4 < -5) {chillDegree4.setAttribute("data-temp","sub--5")}
+            else if(chillDegreeTemp4 < 0) {chillDegree4.setAttribute("data-temp","sub-zero")}
+            else if(chillDegreeTemp4 < 5) {chillDegree4.setAttribute("data-temp","sub-5")}
+            else {chillDegree4.setAttribute("data-temp","sub-10")}
+
+            if(chillDegreeTemp5 >= 10){chillDegree5.setAttribute("data-temp","sub-20");}
+            else if(chillDegreeTemp5 < -15) {chillDegree5.setAttribute("data-temp","sub--15")}
+            else if(chillDegreeTemp5 < -10) {chillDegree5.setAttribute("data-temp","sub--10")}
+            else if(chillDegreeTemp5 < -5) {chillDegree5.setAttribute("data-temp","sub--5")}
+            else if(chillDegreeTemp5 < 0) {chillDegree5.setAttribute("data-temp","sub-zero")}
+            else if(chillDegreeTemp5 < 5) {chillDegree5.setAttribute("data-temp","sub-5")}
+            else {chillDegree5.setAttribute("data-temp","sub-10")}
+
+
+            if(chillDegreeTemp6 >= 10){chillDegree6.setAttribute("data-temp","sub-20");}
+            else if(chillDegreeTemp6 < -15) {chillDegree6.setAttribute("data-temp","sub--15")}
+            else if(chillDegreeTemp6 < -10) {chillDegree6.setAttribute("data-temp","sub--10")}
+            else if(chillDegreeTemp6 < -5) {chillDegree6.setAttribute("data-temp","sub--5")}
+            else if(chillDegreeTemp6 < 0) {chillDegree6.setAttribute("data-temp","sub-zero")}
+            else if(chillDegreeTemp6 < 5) {chillDegree6.setAttribute("data-temp","sub-5")}
+            else {chillDegree6.setAttribute("data-temp","sub-10")}
+        } load()
+    }
+    </script>
+</body>
+</html>

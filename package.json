@@ -1,0 +1,7 @@
+{
+  "dependencies": {
+    "fs": "^0.0.1-security",
+    "fs-js": "^1.0.6",
+    "papaparse": "^5.3.2"
+  }
+}

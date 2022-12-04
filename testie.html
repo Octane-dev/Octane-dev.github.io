@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <table id="demoTable" class="table table-borderless table-striped table-earning">
+        <thead>
+          <tr>
+            <th>file name</th>
+            <th>file name</th>
+            <th>file name</th>
+            <th>file name</th>
+            <th>file name</th>
+          </tr>
+        </thead>
+        <tbody id="testBody"></tbody>
+      </table>
+      <!-- <script>
+        e()
+        async function e() { 
+        const response = await fetch('csv/data/test/data_hp_t.csv');
+        const data = await response.text();
+        const headers = data.split('\n').slice(0,1);
+        const rows = data.split('\n').slice(1);
+        // console.log(rows)
+
+        const dateNow = new Date().toLocaleDateString("en-GB");
+        var date = new Date(),
+        d = date.getDate(),
+        m = date.getMonth(),
+        y = date.getFullYear();
+
+
+      for(i=0; i < 7; i++){
+      const curdate = new Date(y, m, d+i).toLocaleDateString()
+
+        rows.forEach(elt => {
+          const row = elt.split(',');
+          const date = row[1];
+          const peak_wind_gust = row[2];
+          const mid_wind_gust = row[3];
+          const vlly_wind_gust = row[4];
+          const peak_wind_spd = row[5];
+          const mid_wind_spd = row[6];
+          const vlly_wind_spd = row[7];
+          const peak_min_tmp = row[8];
+          const peak_max_tmp = row[9];
+          const peak_feel_like = row[10];
+          const mid_min_temp = row[11];
+          const mid_max_tmp = row[12];
+          const mid_feel_like = row[13];
+          const vlly_min_tmp = row[14];
+          const vlly_max_tmp = row[15];
+          const vlly_feel_like = row[16];
+          const inversion = row[17];
+          const peak_w2 = row[18];
+          const peak_w5 = row[19];
+          const mid_w2 = row[20];
+          const mid_w5 = row[21];
+          const vlly_w2 = row[22];
+          const vlly_w5 = row[23];
+          const peak_rain = row[24];
+          const mid_rain = row[25];
+          const vlly_rain = row[26];
+          const peak_snow = row[27];
+          const mid_snow = row[28];
+          const vlly_snow = row[29];
+          const thunder = row[30];
+          const pk_snow_dph = row[31];
+          const md_snow_dph = row[32];
+          const vy_snow_dph = row[33];
+          //console.log(date,temp,feelLike,gust,speed,weather,calmness,thunder);
+            const item1 = [
+                { one: date, two: date, three: date, four: date },
+                // { snow: vlly_snow, snow: vlly_snow, snow: vlly_snow},
+            ];
+                function loadTableData(items) {
+                const table = document.getElementById("testBody");
+                items.forEach( item => {
+                    let row = table.insertRow();
+                    // let column = table.insertColumn();
+                    let one = row.insertCell(0);
+                    one.innerHTML = item.one;
+                    let two = row.insertCell(1);
+                    two.innerHTML = item.two;
+                    let three = row.insertCell(2);
+                    three.innerHTML = item.three;
+                    let four = row.insertCell(3);
+                    four.innerHTML = item.four;
+                });
+                }
+                loadTableData(item1);
+                // loadTableData(rows);
+                loadTableData([]);
+          }
+          // if (vy_snow_dph > 1 && date == tomorrow) {
+          //   console.log(vy_snow_dph)
+          // }
+          )}};
+      </script> -->
+      <script>
+        // (A) GET HTML TABLE
+let table = document.getElementById("demoTable");
+
+// (B) AJAX FETCH CSV FILE
+fetch("csv/data/test/data_hp_t.csv")
+.then(res => res.text())
+.then(csv => {
+
+    today = new Date().toLocaleDateString();
+  // (B1) REMOVE OLD TABLE ROWS
+  table.innerHTML = "";
+
+  // (B2) GENERATE TABLE
+
+  let rows = csv.split("\r\n");
+  for (let row of rows) {
+    let cols = row.match(/(?:\"([^\"]*(?:\"\"[^\"]*)*)\")|([^\",]+)/g);
+    if (cols!=null) {
+      let tr = table.insertRow();
+      for (let col of cols) {
+        let td = tr.insertCell();
+        td.innerHTML = col.replace(/(^"|"$)/g, "");
+      }
+    }
+  }
+});
+      </script>
+</body>
+</html>
