@@ -137,6 +137,7 @@
                             // var station_wind_gust = vlly_wind_gust
                             var station_w2 = vlly_w2;
                             var station_w5 = vlly_w5;
+                            var station_depth = vy_snow_dph
                             // console.log(date,vy_snow_dph)
                             if (parseFloat(station_chill) > parseFloat(station_min_temp)) {
                                 station_chill = station_min_temp
@@ -153,6 +154,7 @@
                             // var station_wind_gust = mid_wind_gust
                             station_w2 = mid_w2;
                             station_w5 = mid_w5;
+                            var station_depth = md_snow_dph
                             // console.log(station)
                             if (parseFloat(station_chill) > parseFloat(station_min_temp)) {
                                 station_chill = station_min_temp
@@ -169,6 +171,7 @@
                             // var station_wind_gust = peak_wind_gust
                             var station_w2 = peak_w2;
                             var station_w5 = peak_w5;
+                            var station_depth = pk_snow_dph
                             // console.log(station)
                             if (parseFloat(station_chill) > parseFloat(station_min_temp)) {
                                 station_chill = station_min_temp
@@ -245,6 +248,9 @@
                             } else {
                                 snowFill.style.height = "0px";
                             }
+
+                            var snowdepth = document.getElementById("snowdp-cell__value1")
+                            snowdepth.innerHTML = station_depth + " cm"
 
                             var rainFill = document.getElementById("rain-cell__fill1");
 
@@ -344,6 +350,9 @@
                             } else {
                                 snowFill.style.height = "0px";
                             }
+
+                            var snowdepth = document.getElementById("snowdp-cell__value2")
+                            snowdepth.innerHTML = station_depth + " cm"
 
                             var rainFill = document.getElementById("rain-cell__fill2");
 
@@ -473,6 +482,20 @@
                                     <span id="chill-deg-cell__value2" class="chill-deg-cell__value"></span>
                                 </div>
                             </td>
+                        </tr>
+                        <tr class="row snow-depth">
+                            <th class="snow-dph">Snow Depth</th>
+                            <td class="snow-cell">
+                                <div class="snow-cell__container">
+                                    <span id="snowdp-cell__value1" class="snow-cell__value">-</span>
+                                </div>
+                            </td>
+                            <td class="snow-cell">
+                                <div class="snow-cell__container">
+                                    <span id="snowdp-cell__value2" class="snow-cell__value">-</span>
+                                </div>
+                            </td>
+                        </tr>
                     </tbody>
                 </table>
             </div>

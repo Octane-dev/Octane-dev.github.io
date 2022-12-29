@@ -59,6 +59,26 @@ function drawTable(station) {
         if (parseFloat(station_chill) > parseFloat(station_min_temp)) {
             station_chill = station_min_temp
         }
+        console.log(
+            "Forecast "+date+
+            "\n\nSummit:\n\n"+
+            peak_w2+" : "+peak_max_tmp+
+            "°C\n\nFeels Like: "+peak_feel_like+
+            "°C\n\nWind Speed: "+peak_wind_spd+
+            "km/h\n\nWind Direction: "+wind_dir+
+            "\n\nRainfall: "+peak_rain+
+            "mm\n\nSnowfall: "+peak_snow+
+            "cm\n\nFreezing Level: N/A"+
+            "\n\n-----------------------------------------------------"+
+            "\n\nValley:\n\n"+
+            vlly_w2+" : "+vlly_max_tmp+
+            "°C\n\nFeels Like: "+vlly_feel_like+
+            "°C\n\nWind Speed: "+vlly_wind_spd+
+            "km/h\n\nWind Direction: "+wind_dir+
+            "\n\nRainfall: "+vlly_rain+
+            "mm\n\nSnowfall: "+vlly_snow+
+            "cm\n\nFreezing Level: N/A"
+            )
     }
     if (station == "Mid") {
         station_snow = mid_snow;
@@ -642,6 +662,7 @@ function drawTable(station) {
             station_snow,
             station_rain
         );
+
         var max_degree = document.getElementById("top-deg-cell__value6");
         max_degree.innerHTML = station_max_temp;
 

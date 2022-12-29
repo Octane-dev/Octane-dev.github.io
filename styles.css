@@ -36,7 +36,6 @@ body,html {
     top: 100px;
     display: flex;
     /* justify-content: center; */
-     
 }
 
 .forecast-table {
@@ -46,7 +45,8 @@ body,html {
     left: 60px;
     top: 30px;
     text-align: center;
-     
+    max-width: 200%;
+    /* display: inline-block; */
 }
 
 table, th, td {
@@ -704,4 +704,15 @@ th.chill-degr {
 .view-more h5 {
     margin-bottom: 30px;
     font-size: large;
+}
+
+@media screen and (max-width: 1263px) {
+    .forecast-table {
+        position: relative;
+        left: 70px;
+    }
+    tr.row.picture {
+        position: relative;
+        left: 50px;
+    }
 }
