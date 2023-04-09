@@ -11,6 +11,11 @@ const day4 = new Date(y,m,d+3).toLocaleDateString();
 const day5 = new Date(y,m,d+4).toLocaleDateString();
 const day6 = new Date(y,m,d+5).toLocaleDateString();
 const day7 = new Date(y,m,d+6).toLocaleDateString();
+const day8 = new Date(y,m,d+7).toLocaleDateString();
+const day9 = new Date(y,m,d+8).toLocaleDateString();
+const day10 = new Date(y,m,d+9).toLocaleDateString();
+const day11 = new Date(y,m,d+10).toLocaleDateString();
+const day12 = new Date(y,m,d+11).toLocaleDateString();
 
 const weekday = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
 const day1d = weekday[new Date(y,m,d).getDay()];
@@ -20,6 +25,11 @@ const day4d = weekday[new Date(y,m,d+3).getDay()];
 const day5d = weekday[new Date(y,m,d+4).getDay()];
 const day6d = weekday[new Date(y,m,d+5).getDay()];
 const day7d = weekday[new Date(y,m,d+6).getDay()];
+const day8d = weekday[new Date(y,m,d+7).getDay()];
+const day9d = weekday[new Date(y,m,d+8).getDay()];
+const day10d = weekday[new Date(y,m,d+9).getDay()];
+const day11d = weekday[new Date(y,m,d+10).getDay()];
+const day12d = weekday[new Date(y,m,d+11).getDay()];
 // console.log(day1d,day2d,day3d,day4d,day5d,day6d,day7d)
 
 const day1date = new Date(y,m,d).getDate()
@@ -29,6 +39,11 @@ const day4date = new Date(y,m,d+3).getDate()
 const day5date = new Date(y,m,d+4).getDate()
 const day6date = new Date(y,m,d+5).getDate()
 const day7date = new Date(y,m,d+6).getDate()
+const day8date = new Date(y,m,d+7).getDate()
+const day9date = new Date(y,m,d+8).getDate()
+const day10date = new Date(y,m,d+9).getDate()
+const day11date = new Date(y,m,d+10).getDate()
+const day12date = new Date(y,m,d+11).getDate()
 // console.log(day1date,day7date)
 
 const day1e = document.getElementById("day1")
@@ -38,6 +53,11 @@ const day4e = document.getElementById("day4")
 const day5e = document.getElementById("day5")
 const day6e = document.getElementById("day6")
 const day7e = document.getElementById("day7")
+const day8e = document.getElementById("day8")
+const day9e = document.getElementById("day9")
+const day10e = document.getElementById("day10")
+const day11e = document.getElementById("day11")
+const day12e = document.getElementById("day12")
 
 day1e.innerHTML = day1d + "<br>" + day1date
 day2e.innerHTML = day2d + "<br>" + day2date
@@ -46,3 +66,8 @@ day4e.innerHTML = day4d + "<br>" + day4date
 day5e.innerHTML = day5d + "<br>" + day5date
 day6e.innerHTML = day6d + "<br>" + day6date
 day7e.innerHTML = day7d + "<br>" + day7date
+// day8e.innerHTML = day8d + "<br>" + day8date
+// day9e.innerHTML = day9d + "<br>" + day9date
+// day10e.innerHTML = day10d + "<br>" + day10date
+// day11e.innerHTML = day11d + "<br>" + day11date
+// day12e.innerHTML = day12d + "<br>" + day12date
