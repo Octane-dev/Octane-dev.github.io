@@ -40,7 +40,7 @@ body,html {
 }
 
 .content {
-    margin-left: 30px;
+    margin-left: 30%;
 }
 
 table, th, td {
@@ -193,7 +193,7 @@ tr.row.chill-deg{
     width: 11%;
     bottom: 513px;
     /* height: 15px; */
-    background: #cee1ff;
+    background: #fff;
     border-radius: 4px 4px 0 0;
 }
 .rain-cell__fill1 {
@@ -203,7 +203,7 @@ tr.row.chill-deg{
     width: 11%;
     bottom: 513px;
     /* height: 15px; */
-    background: #cee1ff;
+    background: #fff;
     border-radius: 4px 4px 0 0;
 }
 

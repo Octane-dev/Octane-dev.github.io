@@ -25,17 +25,21 @@ var station_snow = 0,
 // var station_wind_gust = mid_wind_gust
 var station_w2 = 0;
 var station_w5 = 0;
-function freezingLevel(pk_t1, vy_t1) {
+function freezingLevel(pk_t1, pk_t2, vy_t1, vy_t2) {
   const bot = 725;
   const top = 485;
   const topStation = 550;
   const bottomStation = 690;
 
+  var pk_t = parseFloat(parseFloat(parseFloat(pk_t2) + parseFloat(pk_t1))/2)
+  console.log(pk_t, pk_t2, pk_t1)
+  var vy_t = parseFloat(parseFloat(parseFloat(vy_t2) + parseFloat(vy_t1))/2)
+  console.log(vy_t, vy_t2, vy_t1)
   const rTopStation = 1700;
   const rBottomStation = 320;
   // console.log(pk_t1,vy_t1)
-  if (vy_t1 <= 0) {
-    var fzl = rBottomStation + (vy_t1 * 500) / 3.281;
+  if (vy_t <= 0) {
+    var fzl = rBottomStation + (vy_t * 500) / 3.281;
   }
   // else if (pk_t1 > vy_t1) {
   //     console.log(pk_t1,vy_t1)
@@ -45,7 +49,7 @@ function freezingLevel(pk_t1, vy_t1) {
   else {
     var fzl =
       rTopStation +
-      ((rTopStation - rBottomStation) * (0 - pk_t1)) / (pk_t1 - vy_t1);
+      ((rTopStation - rBottomStation) * (0 - pk_t)) / (pk_t - vy_t);
   }
   if (fzl < 0) {
     fzl = 0;
@@ -216,7 +220,7 @@ function drawTable(station) {
     } else {
       rainFill.style.height = "0px";
     }
-    var pxl1 = freezingLevel(peak_min_tmp, vlly_min_tmp);
+    var pxl1 = freezingLevel(peak_min_tmp, peak_max_tmp, vlly_min_tmp, vlly_max_tmp);
     point1.style.top = pxl1 + "px";
   }
 
@@ -321,7 +325,7 @@ function drawTable(station) {
     } else {
       rainFill.style.height = "0px";
     }
-    var pxl2 = freezingLevel(peak_min_tmp, vlly_min_tmp);
+    var pxl2 = freezingLevel(peak_min_tmp, peak_max_tmp, vlly_min_tmp, vlly_max_tmp);
     point2.style.top = pxl2 + "px";
   }
   if (day3 == date) {
@@ -425,7 +429,7 @@ function drawTable(station) {
     } else {
       rainFill.style.height = "0px";
     }
-    var pxl3 = freezingLevel(peak_min_tmp, vlly_min_tmp);
+    var pxl3 = freezingLevel(peak_min_tmp, peak_max_tmp, vlly_min_tmp, vlly_max_tmp);
     point3.style.top = pxl3 + "px";
   }
   if (day4 == date) {
@@ -529,7 +533,7 @@ function drawTable(station) {
     } else {
       rainFill.style.height = "0px";
     }
-    var pxl4 = freezingLevel(peak_min_tmp, vlly_min_tmp);
+    var pxl4 = freezingLevel(peak_min_tmp, peak_max_tmp, vlly_min_tmp, vlly_max_tmp);
     point4.style.top = pxl4 + "px";
   }
   if (day5 == date) {
@@ -633,7 +637,7 @@ function drawTable(station) {
     } else {
       rainFill.style.height = "0px";
     }
-    var pxl5 = freezingLevel(peak_min_tmp, vlly_min_tmp);
+    var pxl5 = freezingLevel(peak_min_tmp, peak_max_tmp, vlly_min_tmp, vlly_max_tmp);
     point5.style.top = pxl5 + "px";
   }
   if (day6 == date) {
@@ -738,7 +742,7 @@ function drawTable(station) {
     } else {
       rainFill.style.height = "0px";
     }
-    var pxl6 = freezingLevel(peak_min_tmp, vlly_min_tmp);
+    var pxl6 = freezingLevel(peak_min_tmp, peak_max_tmp, vlly_min_tmp, vlly_max_tmp);
     point6.style.top = pxl6 + "px";
   }
   if (day7 == date) {
@@ -842,7 +846,7 @@ function drawTable(station) {
     } else {
       rainFill.style.height = "0px";
     }
-    var pxl7 = freezingLevel(peak_min_tmp, vlly_min_tmp);
+    var pxl7 = freezingLevel(peak_min_tmp, peak_max_tmp, vlly_min_tmp, vlly_max_tmp);
     point7.style.top = pxl7 + "px";
   }
 

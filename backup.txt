@@ -1,16 +1,3 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="styles.css">
-    <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.6.0.min.js"></script>
-    <!-- <script src="fs.js"></script> -->
-
-    <title>Forecast | Base</title>
-</head>
-<body>
     <div class="forecast-main">
         <div class="content">
             <div class="table">
@@ -24,7 +11,7 @@
                     </div>
                 </div>
                 <table class="forecast-table">
-                    <caption style="z-index:3;position: relative;right:24.5%;font-weight:700;color:var(--snow);"><a style="cursor:pointer;text-decoration: underline;font-weight:700;color:var(--snow);" title="Click to change station" id="cycle">Viewing Forecast: <span id="station">Base (320m)</span></a> | Updates in: <span id="update" style="color: black;font-weight: 400;">24h 59m 59s</span></caption>
+                    <caption style="z-index:3;position: relative;right:29.1%;font-weight:700;color:var(--snow);"><a style="text-decoration: underline;font-weight:700;color:var(--snow);" title="View Mid Forecast" id="cycle">View Forecast: <span id="station">Base (320m)</span></a> | Updates in: <span id="update" style="position: absolute;left:61.8%;color: black;font-weight: 400;"></span></caption>
                     <script type="text/javascript">
                         document.getElementById('view-more').addEventListener("click", function(){
                             document.getElementById('view').style.display = "none"
@@ -470,9 +457,7 @@
                 </table>
             </div>
         </div>
-        <!-- <h1 style="text-align: center;">Heaven's Peak Forecast</h1> -->
     </div>
-    <!-- <iframe src="https://discord.com/widget?id=972791101884882984&theme=dark" width="350" height="500" allowtransparency="true" frameborder="0" sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts"></iframe> -->
     <!-- Scripts 
     Freezing Level -->
     <script type="text/javascript">
@@ -550,15 +535,14 @@ var rows = 1
         station = stations[q]
         console.log(station)
         read_data1(myDisplayer1)
-        // read_data(myDisplayer)
         if (q == 0) {
-            el.innerHTML = "Viewing Forecast: Base (320m)"
+            el.innerHTML = "View Forecast: Base (320m)"
         }
         if (q == 1) {
-            el.innerHTML = "Viewing Forecast: Mid (1000m)"
+            el.innerHTML = "View Forecast: Mid (1000m)"
         }
         if (q == 2) {
-            el.innerHTML = "Viewing Forecast: Peak (1700m)"
+            el.innerHTML = "View Forecast: Peak (1700m)"
         }
         // drawTable(station)
         // processData()
@@ -578,5 +562,3 @@ var rows = 1
 
     read_data1(myDisplayer1)
     </script>
-</body>
-</html>
