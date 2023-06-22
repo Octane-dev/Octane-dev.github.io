@@ -7,8 +7,9 @@
     <link rel="stylesheet" href="styles.css">
     <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.6.0.min.js"></script>
     <!-- <script src="fs.js"></script> -->
-
-    <title>Forecast | Base</title>
+    <meta name="title" content="Heaven's Peak Forecast">
+    <meta name="description" content="A 7 day forecast for Heaven's Peak.">
+    <title>Forecast | Heaven's Peak</title>
 </head>
 <body>
     <div class="forecast-main">
@@ -536,8 +537,8 @@ var wind_dir = 0
 var rows = 1
 </script>
 <script src="processData.js"></script>
-<!-- <script src="readData.js"></script> -->
-<script src="readData2.js"></script>
+<script src="readData.js"></script>
+<!-- <script src="readData2.js"></script> -->
 <script>
     var el = document.getElementById("cycle")
     q = 0
@@ -549,8 +550,8 @@ var rows = 1
         }
         station = stations[q]
         console.log(station)
-        read_data1(myDisplayer1)
-        // read_data(myDisplayer)
+        // read_data1(myDisplayer1)
+        read_data(myDisplayer)
         if (q == 0) {
             el.innerHTML = "Viewing Forecast: Base (320m)"
         }
@@ -563,20 +564,20 @@ var rows = 1
         // drawTable(station)
         // processData()
     });
-    // function myDisplayer(some) {
-    //     drawTable(station)
-    //     processData()
-    // }
-
-    // read_data(myDisplayer)
-
-
-    function myDisplayer1(some) {
+    function myDisplayer(some) {
         drawTable(station)
         processData()
     }
 
-    read_data1(myDisplayer1)
+    read_data(myDisplayer)
+
+
+    // function myDisplayer1(some) {
+    //     drawTable(station)
+    //     processData()
+    // }
+
+    // read_data1(myDisplayer1)
     </script>
 </body>
 </html>
