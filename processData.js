@@ -32,9 +32,9 @@ function freezingLevel(pk_t1, pk_t2, vy_t1, vy_t2) {
   const bottomStation = 690;
 
   var pk_t = parseFloat(parseFloat(parseFloat(pk_t2) + parseFloat(pk_t1))/2)
-  console.log(pk_t, pk_t2, pk_t1)
+  // console.log(pk_t, pk_t2, pk_t1)
   var vy_t = parseFloat(parseFloat(parseFloat(vy_t2) + parseFloat(vy_t1))/2)
-  console.log(vy_t, vy_t2, vy_t1)
+  // console.log(vy_t, vy_t2, vy_t1)
   const rTopStation = 1700;
   const rBottomStation = 320;
   // console.log(pk_t1,vy_t1)

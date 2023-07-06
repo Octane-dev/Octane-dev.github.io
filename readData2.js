@@ -40,6 +40,9 @@ async function read_data1(myCallback1) {
         wind_dir = row[35];
         // console.log(date)
         // console.log(peak_wind_gust)
+        if (pk_snow_dph < 100 && pk_snow_dph > 0) {
+            console.log(pk_snow_dph,date)
+        }
         myCallback1()
     })
 };
