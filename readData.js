@@ -5,6 +5,7 @@ async function read_data(myCallback) {
     const response = await fetch('csv/data/official/weatherHeavenPeaknew.csv');
     const data = await response.text();
     const rows = data.split('\n').slice(1);
+    var total = 0;
     rows.forEach(elt => {
         const row = elt.split(',');
         date = row[0];
@@ -41,6 +42,8 @@ async function read_data(myCallback) {
         md_snow_dph = row[36];
         vy_snow_dph = row[39];
         wind_dir = row[40];
+        total = parseFloat(total) + parseFloat(vlly_snow);
+        console.log(total)
         myCallback()
     })
 };

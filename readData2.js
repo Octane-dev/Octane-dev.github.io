@@ -2,6 +2,7 @@ async function read_data1(myCallback1) {
     const response = await fetch('csv/data/test/WeatherHeavensPeakNew (1).csv');
     const data = await response.text();
     const rows = data.split('\n').slice(1);
+    var total = 0;
     rows.forEach(elt => {
         const row = elt.split(',');
         date = row[0];
@@ -40,9 +41,8 @@ async function read_data1(myCallback1) {
         wind_dir = row[35];
         // console.log(date)
         // console.log(peak_wind_gust)
-        if (pk_snow_dph < 100 && pk_snow_dph > 0) {
-            console.log(pk_snow_dph,date)
-        }
+        total = parseFloat(total) + parseFloat(vlly_snow);
+        console.log(total)
         myCallback1()
     })
 };
